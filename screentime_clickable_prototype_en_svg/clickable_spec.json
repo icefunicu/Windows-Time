@@ -1,0 +1,192 @@
+{
+  "language": "en-US",
+  "theme": "light",
+  "screens": [
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "image": "dashboard.png",
+      "hotspots": [
+        {
+          "id": "to_app_usage",
+          "label": "Go to App Usage",
+          "x": 0.78,
+          "y": 0.34,
+          "w": 0.2,
+          "h": 0.36,
+          "target": "app_usage.html"
+        },
+        {
+          "id": "to_reports",
+          "label": "View Weekly Report",
+          "x": 0.03,
+          "y": 0.82,
+          "w": 0.94,
+          "h": 0.16,
+          "target": "reports.html"
+        }
+      ]
+    },
+    {
+      "id": "app_usage",
+      "title": "App Usage",
+      "image": "app_usage.png",
+      "hotspots": [
+        {
+          "id": "open_app_detail",
+          "label": "Open app detail (demo)",
+          "x": 0.07,
+          "y": 0.18,
+          "w": 0.45,
+          "h": 0.55,
+          "target": "overlay_detail.html#app"
+        },
+        {
+          "id": "to_limits",
+          "label": "Go to Usage Limits",
+          "x": 0.7,
+          "y": 0.02,
+          "w": 0.28,
+          "h": 0.1,
+          "target": "limits.html"
+        },
+        {
+          "id": "back_dashboard",
+          "label": "Back to Dashboard",
+          "x": 0.02,
+          "y": 0.02,
+          "w": 0.18,
+          "h": 0.1,
+          "target": "dashboard.html"
+        }
+      ]
+    },
+    {
+      "id": "limits",
+      "title": "Usage Limits",
+      "image": "limits.png",
+      "hotspots": [
+        {
+          "id": "add_limit",
+          "label": "Add a new limit",
+          "x": 0.62,
+          "y": 0.78,
+          "w": 0.34,
+          "h": 0.14,
+          "target": "limits_editor.html"
+        },
+        {
+          "id": "back_dashboard",
+          "label": "Back to Dashboard",
+          "x": 0.02,
+          "y": 0.02,
+          "w": 0.22,
+          "h": 0.1,
+          "target": "dashboard.html"
+        },
+        {
+          "id": "to_focus",
+          "label": "Go to Focus Mode",
+          "x": 0.7,
+          "y": 0.02,
+          "w": 0.28,
+          "h": 0.1,
+          "target": "focus.html"
+        }
+      ]
+    },
+    {
+      "id": "focus",
+      "title": "Focus Mode",
+      "image": "focus.png",
+      "hotspots": [
+        {
+          "id": "start_focus",
+          "label": "Start/Pause focus (demo)",
+          "x": 0.07,
+          "y": 0.22,
+          "w": 0.46,
+          "h": 0.6,
+          "target": "focus.html#timer"
+        },
+        {
+          "id": "to_reports",
+          "label": "View Weekly Report",
+          "x": 0.58,
+          "y": 0.62,
+          "w": 0.4,
+          "h": 0.3,
+          "target": "reports.html"
+        },
+        {
+          "id": "back_dashboard",
+          "label": "Back to Dashboard",
+          "x": 0.02,
+          "y": 0.02,
+          "w": 0.2,
+          "h": 0.1,
+          "target": "dashboard.html"
+        }
+      ]
+    },
+    {
+      "id": "reports",
+      "title": "Weekly Report",
+      "image": "reports.png",
+      "hotspots": [
+        {
+          "id": "to_dashboard",
+          "label": "Back to Dashboard",
+          "x": 0.02,
+          "y": 0.02,
+          "w": 0.2,
+          "h": 0.1,
+          "target": "dashboard.html"
+        },
+        {
+          "id": "to_limits",
+          "label": "Go to Usage Limits",
+          "x": 0.76,
+          "y": 0.02,
+          "w": 0.22,
+          "h": 0.1,
+          "target": "limits.html"
+        }
+      ]
+    },
+    {
+      "id": "overlay",
+      "title": "Time Limit Overlay",
+      "image": "overlay.png",
+      "hotspots": [
+        {
+          "id": "close_app",
+          "label": "Close App",
+          "x": 0.31,
+          "y": 0.55,
+          "w": 0.38,
+          "h": 0.12,
+          "target": "dashboard.html"
+        },
+        {
+          "id": "more_time",
+          "label": "More Time (5 min)",
+          "x": 0.31,
+          "y": 0.69,
+          "w": 0.38,
+          "h": 0.1,
+          "target": "dashboard.html#grace"
+        },
+        {
+          "id": "request_unlock",
+          "label": "Request Unlock",
+          "x": 0.31,
+          "y": 0.8,
+          "w": 0.38,
+          "h": 0.1,
+          "target": "limits.html#unlock"
+        }
+      ]
+    }
+  ]
+}

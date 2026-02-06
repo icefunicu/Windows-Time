@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Limits Editor (placeholder)</title><style>
+:root{
+  --bg:#f4f6f8; --card:#ffffff; --text:#1b1b1b; --muted:rgba(0,0,0,.65);
+  --border:rgba(0,0,0,.10); --shadow:0 10px 30px rgba(0,0,0,.10);
+  --radius:16px; --accent:#2563eb;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text)}
+header{position:sticky;top:0;z-index:20;background:rgba(244,246,248,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.wrap{max-width:1180px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+h1{font-size:16px;margin:0}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav a{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:999px;background:rgba(0,0,0,.02);text-decoration:none;color:inherit;font-size:12px}
+.nav svg{width:16px;height:16px;flex:0 0 16px;color:rgba(0,0,0,.75)}
+.nav a:hover{border-color:rgba(37,99,235,.35);background:rgba(37,99,235,.06)}
+.main{max-width:1180px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.stage{position:relative}
+.stage img{width:100%;height:auto;display:block}
+.hotspot{position:absolute;border-radius:12px;outline:2px solid rgba(37,99,235,.0);background:rgba(37,99,235,.0);transition:all .12s ease}
+.hotspot:hover{outline-color:rgba(37,99,235,.55);background:rgba(37,99,235,.12)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;padding:10px 12px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
+.pill{padding:3px 10px;border-radius:999px;border:1px solid var(--border);background:rgba(0,0,0,.02)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.thumb{display:block;text-decoration:none;color:inherit}
+.thumb figure{margin:0}
+.thumb img{width:100%;display:block;border-bottom:1px solid var(--border)}
+.thumb figcaption{padding:10px 12px;font-size:13px}
+small{color:var(--muted)}
+</style></head>
+<body>
+<header><div class="wrap"><h1>Limits Editor (placeholder)</h1><div class="nav"><a href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Home</span></a></div></div></header>
+<main class="main">
+  <section class="card" style="padding:16px">
+    <p style="margin:0 0 10px">Placeholder page for demonstrating navigation flow. Replace it with a dedicated mockup later.</p>
+    <p style="margin:0"><a class="pill" href="javascript:history.back()">Back</a></p>
+  </section>
+</main>
+</body></html>

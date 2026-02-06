@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5A16AAF6-F209-4959-8C4B-A2809788F6F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenTimeWin.Core", "src\ScreenTimeWin.Core\ScreenTimeWin.Core.csproj", "{EBFF772F-6F52-4FE2-93EB-D67FAAA08670}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenTimeWin.Data", "src\ScreenTimeWin.Data\ScreenTimeWin.Data.csproj", "{DE560227-D00B-4D3D-8A6A-494634974ACB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenTimeWin.IPC", "src\ScreenTimeWin.IPC\ScreenTimeWin.IPC.csproj", "{6685BF3B-1EEA-4319-B330-E4C742C0533B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenTimeWin.Service", "src\ScreenTimeWin.Service\ScreenTimeWin.Service.csproj", "{E813A8AB-B81C-4C60-AF77-7E376F93B17B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenTimeWin.App", "src\ScreenTimeWin.App\ScreenTimeWin.App.csproj", "{2BC8DD9B-D2B4-4438-AEAB-4F4DB0F5668C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenTimeWin.Tests", "src\ScreenTimeWin.Tests\ScreenTimeWin.Tests.csproj", "{F47C69FA-7D32-4277-986E-5ABC3D183330}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBFF772F-6F52-4FE2-93EB-D67FAAA08670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBFF772F-6F52-4FE2-93EB-D67FAAA08670}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBFF772F-6F52-4FE2-93EB-D67FAAA08670}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBFF772F-6F52-4FE2-93EB-D67FAAA08670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE560227-D00B-4D3D-8A6A-494634974ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE560227-D00B-4D3D-8A6A-494634974ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE560227-D00B-4D3D-8A6A-494634974ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE560227-D00B-4D3D-8A6A-494634974ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6685BF3B-1EEA-4319-B330-E4C742C0533B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6685BF3B-1EEA-4319-B330-E4C742C0533B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6685BF3B-1EEA-4319-B330-E4C742C0533B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6685BF3B-1EEA-4319-B330-E4C742C0533B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E813A8AB-B81C-4C60-AF77-7E376F93B17B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E813A8AB-B81C-4C60-AF77-7E376F93B17B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E813A8AB-B81C-4C60-AF77-7E376F93B17B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E813A8AB-B81C-4C60-AF77-7E376F93B17B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BC8DD9B-D2B4-4438-AEAB-4F4DB0F5668C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BC8DD9B-D2B4-4438-AEAB-4F4DB0F5668C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BC8DD9B-D2B4-4438-AEAB-4F4DB0F5668C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BC8DD9B-D2B4-4438-AEAB-4F4DB0F5668C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F47C69FA-7D32-4277-986E-5ABC3D183330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F47C69FA-7D32-4277-986E-5ABC3D183330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F47C69FA-7D32-4277-986E-5ABC3D183330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F47C69FA-7D32-4277-986E-5ABC3D183330}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EBFF772F-6F52-4FE2-93EB-D67FAAA08670} = {5A16AAF6-F209-4959-8C4B-A2809788F6F4}
+		{DE560227-D00B-4D3D-8A6A-494634974ACB} = {5A16AAF6-F209-4959-8C4B-A2809788F6F4}
+		{6685BF3B-1EEA-4319-B330-E4C742C0533B} = {5A16AAF6-F209-4959-8C4B-A2809788F6F4}
+		{E813A8AB-B81C-4C60-AF77-7E376F93B17B} = {5A16AAF6-F209-4959-8C4B-A2809788F6F4}
+		{2BC8DD9B-D2B4-4438-AEAB-4F4DB0F5668C} = {5A16AAF6-F209-4959-8C4B-A2809788F6F4}
+		{F47C69FA-7D32-4277-986E-5ABC3D183330} = {5A16AAF6-F209-4959-8C4B-A2809788F6F4}
+	EndGlobalSection
+EndGlobal

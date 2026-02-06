@@ -1,0 +1,40 @@
+# Visual Studio
+.vs/
+[Oo]bj/
+[Bb]in/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleasePublic/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet
+.nuget/
+*.nuget.props
+*.nuget.targets
+
+# Logs
+*.log
+startup_error.txt
+app_ctor_error.txt
+
+# ScreenTimeWin specific
+*.sqlite
+*.db
+*.db-shm
+*.db-wal
