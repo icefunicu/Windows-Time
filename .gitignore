@@ -29,6 +29,7 @@ bld/
 *.nuget.targets
 
 # Logs
+src/ScreenTimeWin.Service/logs/
 *.log
 startup_error.txt
 app_ctor_error.txt
