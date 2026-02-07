@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ScreenTimeWin.App"
+             xmlns:p="clr-namespace:ScreenTimeWin.App.Properties"
              mc:Ignorable="d"
              d:DesignHeight="550" d:DesignWidth="700"
              Background="{DynamicResource WindowBackgroundBrush}">
@@ -18,113 +19,166 @@
             </Grid.RowDefinitions>
 
             <!-- 页面标题 -->
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                <TextBlock Text="📊" FontSize="24" VerticalAlignment="Center"/>
-                <TextBlock Text="App Usage" FontSize="24" FontWeight="Bold" Margin="10,0,0,0" 
-                           Foreground="{DynamicResource PrimaryTextBrush}"/>
-            </StackPanel>
-
-            <!-- 列表表头 -->
-            <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid Margin="0,0,0,20">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="📊" FontSize="24" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static p:Resources.AppUsageTitle}" FontSize="24" FontWeight="Bold" Margin="10,0,0,0" 
+                               Foreground="{DynamicResource PrimaryTextBrush}"/>
+                </StackPanel>
                 
-                <TextBlock Text="App" FontWeight="SemiBold" 
-                           Foreground="{DynamicResource SecondaryTextBrush}"/>
-                <TextBlock Grid.Column="1" Text="Today" HorizontalAlignment="Right" FontWeight="SemiBold"
-                           Foreground="{DynamicResource SecondaryTextBrush}"/>
-                <TextBlock Grid.Column="2" Text="7-Day Avg." HorizontalAlignment="Right" FontWeight="SemiBold"
-                           Foreground="{DynamicResource SecondaryTextBrush}"/>
+                <Button Grid.Column="2" Command="{Binding NavigateToLimitsCommand}" 
+                        Content="{x:Static p:Resources.UsageLimitsTitle}"
+                        Background="Transparent" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                        Padding="12,6" Foreground="{DynamicResource PrimaryTextBrush}" Cursor="Hand">
+                     <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="6" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="⏱️" Margin="0,0,6,0"/>
+                                    <ContentPresenter/>
+                                </StackPanel>
+                            </Border>
+                             <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource HoverBackgroundBrush}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
 
-            <!-- 应用列表 -->
-            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding AppList}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="{DynamicResource CardBackgroundBrush}" 
-                                    CornerRadius="8" Margin="0,0,0,8" Padding="15"
-                                    Cursor="Hand">
-                                <Border.InputBindings>
-                                    <MouseBinding MouseAction="LeftClick" 
-                                                  Command="{Binding DataContext.SelectAppCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                  CommandParameter="{Binding}"/>
-                                </Border.InputBindings>
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="{DynamicResource HoverBackgroundBrush}"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    
-                                    <!-- 应用信息 -->
-                                    <StackPanel Orientation="Horizontal">
-                                        <!-- 应用图标占位 -->
-                                        <Border Width="32" Height="32" CornerRadius="4" 
-                                                Background="{Binding CategoryColor}" Margin="0,0,12,0">
-                                            <TextBlock Text="{Binding DisplayName, Converter={StaticResource FirstCharConverter}, FallbackValue=A}" 
-                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                       Foreground="White" FontWeight="Bold"/>
-                                        </Border>
-                                        <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" FontSize="14"
-                                                   VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}"/>
-                                    </StackPanel>
-                                    
-                                    <!-- 今日时长 -->
-                                    <TextBlock Grid.Column="1" Text="{Binding TodayText}" 
-                                               HorizontalAlignment="Right" VerticalAlignment="Center"
-                                               FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}"/>
-                                    
-                                    <!-- 7日平均 -->
-                                    <TextBlock Grid.Column="2" Text="{Binding SevenDayAvgText}" 
-                                               HorizontalAlignment="Right" VerticalAlignment="Center"
-                                               Foreground="{DynamicResource SecondaryTextBrush}"/>
-                                    
-                                    <!-- 进度条 -->
-                                    <Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="44,8,0,0" Height="6">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+            <!-- App List -->
+            <Border Grid.Row="2" Style="{DynamicResource CardStyle}" Padding="0,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <Grid Margin="20,10,20,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="App" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                        <TextBlock Grid.Column="1" Text="{x:Static p:Resources.Today}" HorizontalAlignment="Right" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                        <TextBlock Grid.Column="2" Text="{x:Static p:Resources.SevenDayAvg}" HorizontalAlignment="Right" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                    </Grid>
+                    
+                    <Border Height="1" Background="{DynamicResource DividerBrush}" Margin="0,0,0,10" Grid.Row="0" VerticalAlignment="Bottom"/>
+
+                    <!-- List -->
+                    <Grid Grid.Row="1">
+                        <!-- 加载指示器 -->
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="⏳" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                            <TextBlock Text="{x:Static p:Resources.Loading}" FontSize="14" 
+                                       Foreground="{DynamicResource SecondaryTextBrush}" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        
+                        <!-- 空状态引导 -->
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="280"
+                                    Visibility="{Binding HasNoData, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="📊" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                            <TextBlock Text="{x:Static p:Resources.NoDataTitle}" FontSize="16" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource PrimaryTextBrush}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="{x:Static p:Resources.NoDataHint}" FontSize="13" TextWrapping="Wrap" TextAlignment="Center"
+                                       Foreground="{DynamicResource SecondaryTextBrush}" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        
+                        <!-- 应用列表 -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12,0">
+                            <ScrollViewer.Style>
+                                <Style TargetType="ScrollViewer">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding HasNoData}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ScrollViewer.Style>
+                            <ItemsControl ItemsSource="{Binding AppList}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="Transparent" CornerRadius="8" Margin="0,2" Padding="8,12" Cursor="Hand">
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" 
+                                                          Command="{Binding DataContext.SelectAppCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                          CommandParameter="{Binding}"/>
+                                        </Border.InputBindings>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="{DynamicResource HoverBackgroundBrush}"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
                                         
-                                        <!-- Today进度 -->
-                                        <Border Background="#E0E0E0" CornerRadius="3">
-                                            <Border Background="#4285F4" CornerRadius="3" 
-                                                    HorizontalAlignment="Left"
-                                                    Width="{Binding TodayPercent, Converter={StaticResource PercentToWidthConverter}}"/>
-                                        </Border>
-                                        
-                                        <!-- 7-Day进度 -->
-                                        <Border Grid.Column="2" Background="#E0E0E0" CornerRadius="3">
-                                            <Border Background="#FFA726" CornerRadius="3" 
-                                                    HorizontalAlignment="Left"
-                                                    Width="{Binding SevenDayPercent, Converter={StaticResource PercentToWidthConverter}}"/>
-                                        </Border>
-                                    </Grid>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            
+                                            <!-- App Info -->
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Width="36" Height="36" CornerRadius="10" Background="{Binding CategoryColor}" Margin="0,0,16,0">
+                                                    <TextBlock Text="{Binding DisplayName, Converter={StaticResource FirstCharConverter}, FallbackValue=A}" 
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="16"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding DisplayName}" FontWeight="Medium" FontSize="15" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                            </StackPanel>
+                                            
+                                            <!-- Stats -->
+                                            <TextBlock Grid.Column="1" Text="{Binding TodayText}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding SevenDayAvgText}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                                            
+                                            <!-- Progress Bars -->
+                                            <Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="52,12,0,4" Height="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="12"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                
+                                                <Border Background="{DynamicResource ProgressBackgroundBrush}" CornerRadius="2">
+                                                    <Border Background="{DynamicResource AccentBrush}" CornerRadius="2" HorizontalAlignment="Left" Width="{Binding TodayPercent, Converter={StaticResource PercentToWidthConverter}}"/>
+                                                </Border>
+                                                
+                                                <Border Grid.Column="2" Background="{DynamicResource ProgressBackgroundBrush}" CornerRadius="2">
+                                                    <Border Background="{DynamicResource WarningBrush}" CornerRadius="2" HorizontalAlignment="Left" Width="{Binding SevenDayPercent, Converter={StaticResource PercentToWidthConverter}}"/>
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Border>
         </Grid>
 
         <!-- 详情弹窗遮罩 -->
@@ -169,7 +223,7 @@
 
                 <!-- Recent Sessions -->
                 <StackPanel Grid.Row="1" Margin="0,20,0,0">
-                    <TextBlock Text="Recent Sessions" FontWeight="SemiBold" Margin="0,0,0,10"
+                    <TextBlock Text="{x:Static p:Resources.RecentSessions}" FontWeight="SemiBold" Margin="0,0,0,10"
                                Foreground="{DynamicResource PrimaryTextBrush}"/>
                     
                     <ItemsControl ItemsSource="{Binding SelectedAppDetail.RecentSessions}">
@@ -199,7 +253,7 @@
 
                 <!-- Top Titles -->
                 <StackPanel Grid.Row="2" Margin="0,15,0,0">
-                    <TextBlock Text="Top Titles:" FontWeight="SemiBold" Margin="0,0,0,5"
+                    <TextBlock Text="{x:Static p:Resources.TopTitles}" FontWeight="SemiBold" Margin="0,0,0,5"
                                Foreground="{DynamicResource PrimaryTextBrush}"/>
                     <WrapPanel>
                         <ItemsControl ItemsSource="{Binding SelectedAppDetail.TopTitles}">
@@ -221,14 +275,14 @@
 
                 <!-- 操作按钮 -->
                 <StackPanel Grid.Row="3" Margin="0,20,0,0">
-                    <Button Content="🕐 Set Daily Limit" 
+                    <Button Content="{x:Static p:Resources.SetDailyLimit}" 
                             Background="{DynamicResource AccentBrush}" Foreground="White"
                             Padding="15,10" FontWeight="SemiBold"
                             Command="{Binding SetDailyLimitCommand}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Margin="0,10,0,0">
-                    <Button Content="➕ Block in Focus" 
+                    <Button Content="{x:Static p:Resources.BlockInFocus}" 
                             Background="Transparent" 
                             Foreground="{DynamicResource PrimaryTextBrush}"
                             BorderBrush="{DynamicResource BorderBrush}"
@@ -237,7 +291,7 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="5" Margin="0,10,0,0">
-                    <Button Content="👤 Always Allow" 
+                    <Button Content="{x:Static p:Resources.AlwaysAllow}" 
                             Background="Transparent" 
                             Foreground="{DynamicResource PrimaryTextBrush}"
                             BorderBrush="{DynamicResource BorderBrush}"

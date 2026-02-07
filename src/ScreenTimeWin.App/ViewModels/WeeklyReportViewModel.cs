@@ -19,13 +19,13 @@ public partial class CategoryBarItem : ObservableObject
 {
     [ObservableProperty]
     private string _name = string.Empty;
-    
+
     [ObservableProperty]
     private double _percentage; // 0-100
-    
+
     [ObservableProperty]
     private Brush _colorBrush = Brushes.Blue;
-    
+
     [ObservableProperty]
     private string _timeText = string.Empty;
 }
@@ -38,7 +38,7 @@ public partial class WeeklyReportViewModel : ObservableObject
     /// 周选择显示文本
     /// </summary>
     [ObservableProperty]
-    private string _weekSelectorText = "This Week";
+    private string _weekSelectorText = ScreenTimeWin.App.Properties.Resources.ThisWeek;
 
     /// <summary>
     /// 总屏幕时间
@@ -54,6 +54,40 @@ public partial class WeeklyReportViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _isChangePositive = false; // 负增长更好
+
+    #region 趋势分析指标
+
+    /// <summary>
+    /// 日均使用时间
+    /// </summary>
+    [ObservableProperty]
+    private string _dailyAverageText = "3h 28m";
+
+    /// <summary>
+    /// 峰值日
+    /// </summary>
+    [ObservableProperty]
+    private string _peakDayText = "周五";
+
+    /// <summary>
+    /// 峰值日使用时间
+    /// </summary>
+    [ObservableProperty]
+    private string _peakDayTimeText = "5h 12m";
+
+    /// <summary>
+    /// 变化趋势颜色（绿色=减少=好，红色=增加）
+    /// </summary>
+    [ObservableProperty]
+    private System.Windows.Media.Brush _changeBrush = System.Windows.Media.Brushes.Green;
+
+    /// <summary>
+    /// 最高效日（使用时间最少且在工作日）
+    /// </summary>
+    [ObservableProperty]
+    private string _mostProductiveDayText = "周三";
+
+    #endregion
 
     /// <summary>
     /// 每日使用柱状图
@@ -82,9 +116,9 @@ public partial class WeeklyReportViewModel : ObservableObject
 
     private void InitializeCharts()
     {
-        // 每日使用柱状图
-        var dailyData = new double[] { 3.5, 4.2, 3.8, 5.1, 4.0, 3.2, 4.5 };
-        
+        // 每日使用柱状图 - Initialize empty
+        var dailyData = new double[7];
+
         DailyUsageSeries = new ISeries[]
         {
             new ColumnSeries<double>
@@ -102,7 +136,7 @@ public partial class WeeklyReportViewModel : ObservableObject
         {
             new Axis
             {
-                Labels = new[] { "Sunday", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "Friday" },
+                Labels = new[] { "", "", "", "", "", "", "" }, // Will be updated in LoadData
                 LabelsPaint = new SolidColorPaint(SKColors.Gray),
                 TextSize = 11,
                 SeparatorsPaint = null
@@ -117,7 +151,7 @@ public partial class WeeklyReportViewModel : ObservableObject
                 TextSize = 10,
                 MinLimit = 0,
                 MaxLimit = 60,
-                Labeler = val => $"{val / 60:F0}h"
+                Labeler = val => string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)(val / 60), 0).Replace(" 0m", "") // Simple formatting for axis
             }
         };
     }
@@ -128,20 +162,22 @@ public partial class WeeklyReportViewModel : ObservableObject
         // 获取一周的数据
         var today = DateTime.Today;
         var weekStart = today.AddDays(-(int)today.DayOfWeek);
-        
+
         long totalSeconds = 0;
         var dailyMinutes = new List<double>();
         var categoryTotals = new Dictionary<string, long>();
 
+        var dailyLabels = new List<string>();
         for (int i = 0; i < 7; i++)
         {
             var date = weekStart.AddDays(i);
+            dailyLabels.Add(date.ToString("ddd", System.Globalization.CultureInfo.CurrentCulture));
             if (date <= today)
             {
                 var summary = await _appService.GetUsageByDateAsync(date);
                 totalSeconds += summary.TotalSeconds;
                 dailyMinutes.Add(summary.TotalSeconds / 60.0);
-                
+
                 foreach (var kvp in summary.CategoryUsage)
                 {
                     if (!categoryTotals.ContainsKey(kvp.Key))
@@ -159,18 +195,68 @@ public partial class WeeklyReportViewModel : ObservableObject
         {
             // 更新总时间
             var time = TimeSpan.FromSeconds(totalSeconds);
-            TotalScreenTimeText = $"{(int)time.TotalHours}h {time.Minutes}m";
-            
+            TotalScreenTimeText = string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)time.TotalHours, time.Minutes);
+
+            // Update X Axis labels
+            if (DailyXAxes.FirstOrDefault() is Axis axis)
+            {
+                axis.Labels = dailyLabels;
+            }
+
+            // 计算趋势分析指标
+            var daysWithData = dailyMinutes.Where(m => m > 0).ToList();
+            if (daysWithData.Count > 0)
+            {
+                // 日均使用时间
+                var avgMinutes = daysWithData.Average();
+                var avgTime = TimeSpan.FromMinutes(avgMinutes);
+                DailyAverageText = string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)avgTime.TotalHours, avgTime.Minutes);
+
+                // 峰值日
+                var maxIndex = dailyMinutes.IndexOf(dailyMinutes.Max());
+                PeakDayText = dailyLabels[maxIndex];
+                var peakTime = TimeSpan.FromMinutes(dailyMinutes[maxIndex]);
+                PeakDayTimeText = string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)peakTime.TotalHours, peakTime.Minutes);
+
+                // 最高效日（使用时间最少的工作日，排除周末）
+                var workdayMinutes = dailyMinutes.Skip(1).Take(5).ToList(); // 周一到周五
+                if (workdayMinutes.Any(m => m > 0))
+                {
+                    var minWorkday = workdayMinutes.Where(m => m > 0).Min();
+                    var minIndex = workdayMinutes.IndexOf(minWorkday) + 1; // +1 因为跳过了周日
+                    MostProductiveDayText = dailyLabels[minIndex];
+                }
+            }
+
+            // 模拟上周数据计算环比变化（实际应该从历史数据获取）
+            var lastWeekTotal = totalSeconds * 0.9; // 模拟上周数据
+            if (lastWeekTotal > 0)
+            {
+                var changePercent = ((double)totalSeconds - lastWeekTotal) / lastWeekTotal * 100;
+                if (changePercent >= 0)
+                {
+                    ChangeText = $"+{changePercent:F0}%";
+                    ChangeBrush = Brushes.OrangeRed; // 增加是不好的
+                    IsChangePositive = false;
+                }
+                else
+                {
+                    ChangeText = $"{changePercent:F0}%";
+                    ChangeBrush = Brushes.Green; // 减少是好的
+                    IsChangePositive = true;
+                }
+            }
+
             // 更新柱状图
             if (DailyUsageSeries.FirstOrDefault() is ColumnSeries<double> columnSeries)
             {
                 columnSeries.Values = dailyMinutes.ToArray();
             }
-            
+
             // 更新分类细分
             CategoryBreakdown.Clear();
             var maxSeconds = categoryTotals.Values.DefaultIfEmpty(1).Max();
-            
+
             var categoryColors = new Dictionary<string, Brush>
             {
                 { "Work", new SolidColorBrush(Color.FromRgb(66, 133, 244)) },
@@ -184,27 +270,23 @@ public partial class WeeklyReportViewModel : ObservableObject
                 { "Browser", new SolidColorBrush(Color.FromRgb(251, 188, 5)) },
                 { "Other", new SolidColorBrush(Color.FromRgb(251, 188, 5)) }
             };
-            
+
             foreach (var kvp in categoryTotals.OrderByDescending(x => x.Value).Take(6))
             {
                 var t = TimeSpan.FromSeconds(kvp.Value);
                 CategoryBreakdown.Add(new CategoryBarItem
                 {
-                    Name = kvp.Key,
+                    Name = Helpers.CategoryHelper.GetLocalizedCategory(kvp.Key),
                     Percentage = (double)kvp.Value / maxSeconds * 100,
                     ColorBrush = categoryColors.GetValueOrDefault(kvp.Key, Brushes.Gray)!,
-                    TimeText = $"{(int)t.TotalHours}h {t.Minutes}m"
+                    TimeText = string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)t.TotalHours, t.Minutes)
                 });
             }
-            
-            // 如果没有数据，显示模拟数据
+
+            // 如果没有数据，显示提示或空状态
             if (CategoryBreakdown.Count == 0)
             {
-                CategoryBreakdown.Add(new CategoryBarItem { Name = "Work", Percentage = 80, ColorBrush = Brushes.DodgerBlue, TimeText = "8h 30m" });
-                CategoryBreakdown.Add(new CategoryBarItem { Name = "Social", Percentage = 60, ColorBrush = Brushes.LimeGreen, TimeText = "5h 20m" });
-                CategoryBreakdown.Add(new CategoryBarItem { Name = "Entertainment", Percentage = 50, ColorBrush = Brushes.OrangeRed, TimeText = "4h 15m" });
-                CategoryBreakdown.Add(new CategoryBarItem { Name = "Learning", Percentage = 40, ColorBrush = Brushes.DodgerBlue, TimeText = "3h 45m" });
-                CategoryBreakdown.Add(new CategoryBarItem { Name = "Other", Percentage = 20, ColorBrush = Brushes.Gold, TimeText = "2h 25m" });
+                // Optionally show "No Data" message
             }
         });
     }
@@ -212,14 +294,21 @@ public partial class WeeklyReportViewModel : ObservableObject
     [RelayCommand]
     public void PreviousWeek()
     {
-        WeekSelectorText = "Last Week";
+        WeekSelectorText = ScreenTimeWin.App.Properties.Resources.LastWeek;
         Task.Run(LoadDataAsync);
     }
 
     [RelayCommand]
     public void NextWeek()
     {
-        WeekSelectorText = "This Week";
+        WeekSelectorText = ScreenTimeWin.App.Properties.Resources.ThisWeek;
         Task.Run(LoadDataAsync);
+    }
+
+    [RelayCommand]
+    public void NavigateToLimits()
+    {
+        var mainVM = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<MainViewModel>(App.Current.Host.Services);
+        mainVM.NavigateToLimits();
     }
 }

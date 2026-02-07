@@ -11,8 +11,8 @@ public partial class AppUsageViewModel : ObservableObject
 
     public string ProcessName => _dto.ProcessName;
     public string DisplayName => _dto.DisplayName;
-    public string Category => _dto.Category;
-    
+    public string Category => Helpers.CategoryHelper.GetLocalizedCategory(_dto.Category);
+
     /// <summary>
     /// 可更新的总秒数，用于增量刷新避免闪烁
     /// </summary>

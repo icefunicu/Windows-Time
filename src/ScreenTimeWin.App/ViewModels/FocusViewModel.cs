@@ -25,7 +25,7 @@ public partial class FocusViewModel : ObservableObject
     private string _remainingTimeText = "25:00";
 
     [ObservableProperty]
-    private string _focusLabel = "Focus on Coding";
+    private string _focusLabel = ScreenTimeWin.App.Properties.Resources.FocusDefaultLabel;
 
     /// <summary>
     /// 进度百分比 (0-100)，用于圆形进度条
@@ -45,6 +45,9 @@ public partial class FocusViewModel : ObservableObject
     [ObservableProperty]
     private bool _doNotDisturb = true;
 
+    [ObservableProperty]
+    private bool _isBlacklistMode;
+
     /// <summary>
     /// 允许的应用列表
     /// </summary>
@@ -57,67 +60,95 @@ public partial class FocusViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<SelectableAppDto> _blockedApps = new();
 
+    [RelayCommand]
+    public void NavigateToWeeklyReport()
+    {
+        var mainVM = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<MainViewModel>(App.Current.Host.Services);
+        mainVM.NavigateToWeeklyReport();
+    }
+
     public FocusViewModel(IAppService appService)
     {
         _appService = appService;
         _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
         _timer.Tick += (s, e) => UpdateRemainingTime();
-        
+
         // 初始化默认时间显示
         UpdateTimeDisplay(TimeSpan.FromMinutes(DurationMinutes));
-        
+
         Task.Run(LoadAppsAsync);
     }
 
     [RelayCommand]
     public async Task LoadAppsAsync()
     {
-        // 复用 GetLimitRules 获取应用列表
+        // 从服务加载所有已追踪的应用
         var apps = await _appService.GetLimitRulesAsync();
         App.Current.Dispatcher.Invoke(() =>
         {
             AllowedApps.Clear();
             BlockedApps.Clear();
-            
-            // 模拟一些默认的允许/阻止应用
-            var allowedNames = new[] { "code", "devenv", "notepad", "spotify" };
-            var blockedNames = new[] { "chrome", "steam", "discord" };
-            
+
+            // 将所有应用添加到白名单列表供用户选择
+            // 用户可以根据需要勾选/取消勾选
             foreach (var app in apps)
             {
-                var item = new SelectableAppDto 
-                { 
-                    AppId = app.AppId, 
-                    DisplayName = app.DisplayName, 
-                    ProcessName = app.ProcessName,
-                    IsSelected = true
-                };
-                
-                if (allowedNames.Any(n => app.ProcessName.ToLower().Contains(n)))
+                var item = new SelectableAppDto
                 {
+                    AppId = app.AppId,
+                    DisplayName = app.DisplayName,
+                    ProcessName = app.ProcessName,
+                    IsSelected = false // 默认不选中，用户自主选择
+                };
+
+                // 根据分类预设选择状态
+                var category = GetAppCategory(app.ProcessName);
+                if (category == "Development" || category == "Work")
+                {
+                    item.IsSelected = true; // 开发和办公类应用默认允许
                     AllowedApps.Add(item);
                 }
-                else if (blockedNames.Any(n => app.ProcessName.ToLower().Contains(n)))
+                else
                 {
-                    item.IsSelected = false;
                     BlockedApps.Add(item);
                 }
             }
-            
-            // 如果没有数据，添加一些模拟数据
-            if (AllowedApps.Count == 0)
-            {
-                AllowedApps.Add(new SelectableAppDto { DisplayName = "VS Code", ProcessName = "code", IsSelected = true });
-                AllowedApps.Add(new SelectableAppDto { DisplayName = "Notepad", ProcessName = "notepad", IsSelected = true });
-                AllowedApps.Add(new SelectableAppDto { DisplayName = "Spotify", ProcessName = "spotify", IsSelected = true });
-            }
-            if (BlockedApps.Count == 0)
-            {
-                BlockedApps.Add(new SelectableAppDto { DisplayName = "Social Media", ProcessName = "social", IsSelected = false });
-                BlockedApps.Add(new SelectableAppDto { DisplayName = "Games", ProcessName = "games", IsSelected = false });
-            }
+
+            // 如果没有应用数据，显示空状态提示
+            // 不再添加硬编码的模拟数据
         });
     }
+
+    /// <summary>
+    /// 根据进程名推断应用分类
+    /// </summary>
+    private string GetAppCategory(string processName)
+    {
+        var name = processName.ToLower();
+
+        // 开发工具
+        if (name.Contains("code") || name.Contains("devenv") || name.Contains("idea") ||
+            name.Contains("studio") || name.Contains("rider") || name.Contains("sublime"))
+            return "Development";
+
+        // 办公工具
+        if (name.Contains("word") || name.Contains("excel") || name.Contains("outlook") ||
+            name.Contains("notepad") || name.Contains("teams") || name.Contains("slack"))
+            return "Work";
+
+        // 浏览器
+        if (name.Contains("chrome") || name.Contains("firefox") || name.Contains("edge") ||
+            name.Contains("browser"))
+            return "Browser";
+
+        // 娱乐
+        if (name.Contains("steam") || name.Contains("discord") || name.Contains("spotify") ||
+            name.Contains("game"))
+            return "Entertainment";
+
+        return "Other";
+    }
+
 
     [RelayCommand]
     public async Task StartFocusAsync()
@@ -126,11 +157,12 @@ public partial class FocusViewModel : ObservableObject
         var request = new StartFocusRequest
         {
             DurationMinutes = DurationMinutes,
-            WhitelistAppIds = whitelist
+            WhitelistAppIds = whitelist,
+            FocusType = IsBlacklistMode ? "Blacklist" : "Whitelist"
         };
 
         await _appService.StartFocusAsync(request);
-        
+
         _startTime = DateTime.Now;
         _endTime = DateTime.Now.AddMinutes(DurationMinutes);
         IsFocusActive = true;
@@ -142,7 +174,7 @@ public partial class FocusViewModel : ObservableObject
     public async Task StopFocusAsync()
     {
         await _appService.StopFocusAsync();
-        
+
         // 如果完成了至少一半时间，算作完成一个会话
         if (_startTime.HasValue && _endTime.HasValue)
         {
@@ -153,7 +185,7 @@ public partial class FocusViewModel : ObservableObject
                 SessionsCompletedToday++;
             }
         }
-        
+
         IsFocusActive = false;
         _timer.Stop();
         ProgressPercent = 100;
@@ -167,7 +199,7 @@ public partial class FocusViewModel : ObservableObject
     public void AdjustDuration(string adjustment)
     {
         if (IsFocusActive) return; // 进行中不能调整
-        
+
         int delta = int.TryParse(adjustment, out var d) ? d : 0;
         DurationMinutes = Math.Max(5, Math.Min(120, DurationMinutes + delta));
         UpdateTimeDisplay(TimeSpan.FromMinutes(DurationMinutes));
@@ -176,7 +208,7 @@ public partial class FocusViewModel : ObservableObject
     private void UpdateRemainingTime()
     {
         if (_endTime == null || _startTime == null) return;
-        
+
         var remaining = _endTime.Value - DateTime.Now;
         if (remaining.TotalSeconds <= 0)
         {
@@ -185,11 +217,11 @@ public partial class FocusViewModel : ObservableObject
             StopFocusCommand.Execute(null);
             return;
         }
-        
+
         // 更新进度百分比
         var total = _endTime.Value - _startTime.Value;
         ProgressPercent = (remaining.TotalSeconds / total.TotalSeconds) * 100;
-        
+
         UpdateTimeDisplay(remaining);
     }
 
@@ -214,7 +246,7 @@ public class SelectableAppDto : ObservableObject
     public Guid AppId { get; set; }
     public string DisplayName { get; set; } = string.Empty;
     public string ProcessName { get; set; } = string.Empty;
-    
+
     private bool _isSelected;
     public bool IsSelected
     {

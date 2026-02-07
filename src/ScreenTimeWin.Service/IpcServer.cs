@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ScreenTimeWin.Core.Entities;
+using ScreenTimeWin.Core.Models;
 using ScreenTimeWin.Data;
 using ScreenTimeWin.IPC.Models;
 
@@ -238,7 +239,8 @@ public class IpcServer : BackgroundService
                         var focusDto = JsonSerializer.Deserialize<StartFocusRequest>(request.PayloadJson);
                         if (focusDto != null)
                         {
-                            _focusManager.StartFocus(focusDto.DurationMinutes, focusDto.WhitelistAppIds);
+                            var focusType = Enum.TryParse<FocusType>(focusDto.FocusType, out var type) ? type : FocusType.Whitelist;
+                            _focusManager.StartFocus(focusDto.DurationMinutes, focusDto.WhitelistAppIds, focusType);
                         }
                     }
                     break;

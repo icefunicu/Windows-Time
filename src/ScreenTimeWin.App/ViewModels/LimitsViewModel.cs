@@ -24,12 +24,15 @@ public partial class LimitCategoryItem : ObservableObject
     [ObservableProperty]
     private bool _isWarning; // 快要达到限制
 
-    public string CategoryIcon => Name switch
+    [ObservableProperty]
+    private string _key = string.Empty;
+
+    public string CategoryIcon => Key switch
     {
-        "社交应用" => "💬",
-        "游戏应用" => "🎮",
-        "学习时间" => "📚",
-        "娱乐" => "🎬",
+        "Social" => "💬",
+        "Games" => "🎮",
+        "Learning" => "📚",
+        "Entertainment" => "🎬",
         _ => "📱"
     };
 }
@@ -37,6 +40,7 @@ public partial class LimitCategoryItem : ObservableObject
 public partial class LimitsViewModel : ObservableObject
 {
     private readonly IAppService _appService;
+    private readonly LocalAppMonitorService _monitorService;
 
     /// <summary>
     /// 今日已使用时间文本
@@ -54,7 +58,7 @@ public partial class LimitsViewModel : ObservableObject
     /// 当前最紧迫的限制提示
     /// </summary>
     [ObservableProperty]
-    private string _urgentLimitText = "Chrome Limit: 12 mins left";
+    private string _urgentLimitText = ScreenTimeWin.App.Properties.Resources.UrgentLimitExample;
 
     /// <summary>
     /// 限制规则列表
@@ -68,9 +72,10 @@ public partial class LimitsViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<LimitCategoryItem> _categoryLimits = new();
 
-    public LimitsViewModel(IAppService appService)
+    public LimitsViewModel(IAppService appService, LocalAppMonitorService monitorService)
     {
         _appService = appService;
+        _monitorService = monitorService;
 
         // 初始化分类限制
         InitializeCategoryLimits();
@@ -82,21 +87,24 @@ public partial class LimitsViewModel : ObservableObject
     {
         CategoryLimits.Add(new LimitCategoryItem
         {
-            Name = "社交应用",
-            LimitText = "1小时/天",
+            Key = "Social",
+            Name = ScreenTimeWin.App.Properties.Resources.CategorySocial,
+            LimitText = "1h/d",
             IsActive = false  // 默认关闭
         });
         CategoryLimits.Add(new LimitCategoryItem
         {
-            Name = "游戏应用",
-            LimitText = "1.5小时/天",
+            Key = "Games",
+            Name = ScreenTimeWin.App.Properties.Resources.CategoryGames,
+            LimitText = "1.5h/d",
             IsActive = false,  // 默认关闭
             IsWarning = false
         });
         CategoryLimits.Add(new LimitCategoryItem
         {
-            Name = "学习时间",
-            LimitText = "无限制",
+            Key = "Learning",
+            Name = ScreenTimeWin.App.Properties.Resources.CategoryLearning,
+            LimitText = ScreenTimeWin.App.Properties.Resources.NoLimit,
             IsActive = false  // 默认关闭
         });
     }
@@ -107,6 +115,9 @@ public partial class LimitsViewModel : ObservableObject
         var rules = await _appService.GetLimitRulesAsync();
         var summary = await _appService.GetTodaySummaryAsync();
 
+        // Update local monitor rules
+        _monitorService.UpdateRules(rules);
+
         App.Current.Dispatcher.Invoke(() =>
         {
             Rules.Clear();
@@ -114,14 +125,14 @@ public partial class LimitsViewModel : ObservableObject
 
             // 更新今日使用统计
             var time = TimeSpan.FromSeconds(summary.TotalSeconds);
-            TodayUsedText = $"{time.Hours}h {time.Minutes}m";
+            TodayUsedText = string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, time.Hours, time.Minutes);
 
             // 计算剩余时间（模拟总限额3.5小时）
             var totalLimit = TimeSpan.FromHours(3.5);
             var remaining = totalLimit - time;
             if (remaining.TotalSeconds > 0)
             {
-                RemainingText = $"{(int)remaining.TotalHours}h {remaining.Minutes}m";
+                RemainingText = string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)remaining.TotalHours, remaining.Minutes);
             }
             else
             {
@@ -135,13 +146,50 @@ public partial class LimitsViewModel : ObservableObject
     {
         if (rule == null) return;
         await _appService.UpsertLimitRuleAsync(rule);
-        MessageBox.Show($"规则 {rule.DisplayName} 已保存。", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        // Reload to sync monitor
+        await LoadRulesAsync();
+
+        MessageBox.Show(rule.DisplayName + " " + ScreenTimeWin.App.Properties.Resources.SuccessTitle, ScreenTimeWin.App.Properties.Resources.SuccessTitle, MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     [RelayCommand]
-    public void AddLimit()
+    public async Task AddLimit()
     {
-        MessageBox.Show("To add a new limit, please go to the Dashboard, click on an app to view details, and set a limit there.", "Add Limit", MessageBoxButton.OK, MessageBoxImage.Information);
+        try
+        {
+            // 获取可用应用列表
+            var apps = _monitorService.GetRunningApps();
+
+            // 创建并显示对话框
+            var dialog = new Views.AddLimitDialog();
+            dialog.SetAvailableApps(apps);
+            dialog.Owner = App.Current.MainWindow;
+
+            if (dialog.ShowDialog() == true && dialog.Result != null)
+            {
+                // 保存规则
+                await _appService.UpsertLimitRuleAsync(dialog.Result);
+
+                // 刷新列表
+                await LoadRulesAsync();
+
+                MessageBox.Show(
+                    dialog.Result.DisplayName + " " + ScreenTimeWin.App.Properties.Resources.SuccessTitle,
+                    ScreenTimeWin.App.Properties.Resources.SuccessTitle,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"AddLimit error: {ex.Message}");
+            MessageBox.Show(
+                ScreenTimeWin.App.Properties.Resources.ErrorTitle + ": " + ex.Message,
+                ScreenTimeWin.App.Properties.Resources.ErrorTitle,
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
     }
 
     [RelayCommand]
@@ -149,5 +197,12 @@ public partial class LimitsViewModel : ObservableObject
     {
         if (item == null) return;
         item.IsActive = !item.IsActive;
+    }
+
+    [RelayCommand]
+    public void NavigateToFocus()
+    {
+        var mainVM = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<MainViewModel>(App.Current.Host.Services);
+        mainVM.NavigateToFocus();
     }
 }

@@ -9,6 +9,7 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ScreenTimeWin.App.ViewModels;
 
@@ -24,7 +25,11 @@ public partial class CategoryLegendItem : ObservableObject
     private Brush _colorBrush = Brushes.Gray;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TimeText))] // Ensure UI updates when Seconds changes
     private long _seconds;
+
+    [ObservableProperty]
+    private double _percentage;
 
     public string TimeText => TimeSpan.FromSeconds(Seconds).ToString(@"h\h\ m\m");
 }
@@ -33,16 +38,20 @@ public partial class DashboardViewModel : ObservableObject
 {
     private readonly IAppService _appService;
     private readonly LocalAppMonitorService _monitorService;
-    private readonly DispatcherTimer _timer;
 
     [ObservableProperty]
-    private string _totalTimeText = "Loading...";
+    private string _totalTimeText = ScreenTimeWin.App.Properties.Resources.Loading;
 
     [ObservableProperty]
-    private string _growthText = "+0% from yesterday";
+    private string _growthText = string.Format(ScreenTimeWin.App.Properties.Resources.GrowthFromYesterday, "...");
+
+    private long _totalSecondsYesterday; // Store locally for calculation
 
     [ObservableProperty]
     private string _appSwitchesText = "0";
+
+    [ObservableProperty]
+    private string _motivationText = ScreenTimeWin.App.Properties.Resources.MotivationDefault;
 
     [ObservableProperty]
     private ObservableCollection<AppUsageViewModel> _topApps = new();
@@ -63,6 +72,10 @@ public partial class DashboardViewModel : ObservableObject
 
     [ObservableProperty]
     private ISeries[] _categorySeries = Array.Empty<ISeries>();
+
+    // 是否正在加载（用于首次加载指示器）
+    [ObservableProperty]
+    private bool _isLoading = true;
 
     // 分类颜色映射（匹配原型图配色）
     private static readonly Dictionary<string, SKColor> CategoryColors = new()
@@ -93,9 +106,10 @@ public partial class DashboardViewModel : ObservableObject
         // 订阅监控数据更新事件
         _monitorService.AppsUpdated += OnMonitorDataUpdated;
 
-        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
-        _timer.Tick += async (s, e) => await LoadDataAsync();
-        _timer.Start();
+        // REMOVED: Timer polling to avoid conflict with local monitor
+        // _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
+        // _timer.Tick += async (s, e) => await LoadDataAsync();
+        // _timer.Start();
 
         // 初始加载
         Task.Run(LoadDataAsync);
@@ -121,9 +135,37 @@ public partial class DashboardViewModel : ObservableObject
             if (TotalTimeText != newTimeText)
                 TotalTimeText = newTimeText;
 
+            // Calculate Growth accurately with live data
+            if (_totalSecondsYesterday > 0)
+            {
+                double growth = ((double)totalSeconds - _totalSecondsYesterday) / _totalSecondsYesterday;
+                string sign = growth >= 0 ? "+" : "";
+                GrowthText = string.Format(ScreenTimeWin.App.Properties.Resources.GrowthFromYesterday, $"{sign}{growth:P0}");
+            }
+            else
+            {
+                GrowthText = string.Format(ScreenTimeWin.App.Properties.Resources.GrowthFromYesterday, "N/A");
+            }
+
+            // Update App Switches
             var newSwitchText = _monitorService.GetAppSwitchCount().ToString();
             if (AppSwitchesText != newSwitchText)
                 AppSwitchesText = newSwitchText;
+
+            // Update Motivation Text based on live data
+            double zScore = (totalSeconds - 7200.0) / 3600.0;
+            double percentile = 1.0 / (1.0 + Math.Exp(-1.7 * zScore));
+            int beatPercent = (int)(percentile * 100);
+            beatPercent = Math.Max(5, Math.Min(99, beatPercent));
+
+            if (totalSeconds < 60)
+            {
+                MotivationText = ScreenTimeWin.App.Properties.Resources.MotivationStart;
+            }
+            else
+            {
+                MotivationText = string.Format(ScreenTimeWin.App.Properties.Resources.MotivationBetterThan, beatPercent);
+            }
 
             // 更新Top Apps列表 - 增量更新避免闪烁
             var trackedApps = _monitorService.GetRunningApps().Take(5).ToList();
@@ -178,16 +220,21 @@ public partial class DashboardViewModel : ObservableObject
         {
             System.Diagnostics.Debug.WriteLine($"LoadLocalDataAsync error: {ex.Message}");
         }
+        finally
+        {
+            // 首次加载完成后隐藏加载指示器
+            if (IsLoading) IsLoading = false;
+        }
     }
 
     private void InitializeCharts()
     {
-        // 面积图（蓝色渐变）
+        // 面积图（蓝色渐变）- 初始化为空，等待真实数据
         HourlySeries = new ISeries[]
         {
             new LineSeries<double>
             {
-                Values = new double[] { 2, 5, 4, 6, 8, 3, 5, 7, 6, 8, 5, 3 },
+                Values = Array.Empty<double>(),
                 Fill = new LinearGradientPaint(
                     new SKColor(0, 122, 255, 100),
                     new SKColor(0, 122, 255, 0),
@@ -218,54 +265,146 @@ public partial class DashboardViewModel : ObservableObject
              }
         };
 
-        // 初始化分类图例（占位）
-        UpdateCategoryLegends(new Dictionary<string, long>
-        {
-            { "Work", 45 },
-            { "Social", 25 },
-            { "Entertainment", 20 },
-            { "Other", 10 }
-        });
+        // 分类图例等待真实数据加载，不使用硬编码占位数据
+        // CategoryLegends 将由 LoadLocalDataAsync() 填充
     }
 
     /// <summary>
     /// 更新分类图例
     /// </summary>
+    /// <summary>
+    /// 更新分类图例 (增量更新，避免闪烁)
+    /// </summary>
     private void UpdateCategoryLegends(Dictionary<string, long> categoryUsage)
     {
-        CategoryLegends.Clear();
-        foreach (var kvp in categoryUsage.OrderByDescending(x => x.Value))
+        long totalSeconds = categoryUsage.Values.Sum();
+        var sortedUsage = categoryUsage.OrderByDescending(x => x.Value).ToList();
+
+        // 1. Update or Add
+        for (int i = 0; i < sortedUsage.Count; i++)
         {
+            var kvp = sortedUsage[i];
             var color = GetCategoryColor(kvp.Key);
-            CategoryLegends.Add(new CategoryLegendItem
+            var name = Helpers.CategoryHelper.GetLocalizedCategory(kvp.Key);
+            var percentage = totalSeconds > 0 ? (double)kvp.Value / totalSeconds : 0;
+            var brush = new SolidColorBrush(Color.FromRgb(color.Red, color.Green, color.Blue));
+
+            if (brush.CanFreeze) brush.Freeze(); // Optimize brush performance
+
+            if (i < CategoryLegends.Count)
             {
-                Name = kvp.Key,
-                Seconds = kvp.Value,
-                ColorBrush = new SolidColorBrush(Color.FromRgb(color.Red, color.Green, color.Blue))
-            });
+                var item = CategoryLegends[i];
+                // Update properties if changed
+                if (item.Name != name) item.Name = name;
+                if (item.Seconds != kvp.Value) item.Seconds = kvp.Value;
+                if (item.Percentage != percentage) item.Percentage = percentage;
+
+                // Brush equality check is tricky, but we can assign it if needed or check equality
+                // Simple optimization: only update if color actually changed (unlikely for same category)
+                // For now, let's assume color is constant for a category.
+            }
+            else
+            {
+                CategoryLegends.Add(new CategoryLegendItem
+                {
+                    Name = name,
+                    Seconds = kvp.Value,
+                    Percentage = percentage,
+                    ColorBrush = brush
+                });
+            }
+        }
+
+        // 2. Remove excess
+        while (CategoryLegends.Count > sortedUsage.Count)
+        {
+            CategoryLegends.RemoveAt(CategoryLegends.Count - 1);
         }
     }
 
     /// <summary>
     /// 更新分类饼图数据
     /// </summary>
+    /// <summary>
+    /// 更新分类饼图数据 (智能更新，重用现有的Series对象)
+    /// </summary>
     private void UpdateCategorySeries(Dictionary<string, long> categoryUsage)
     {
-        var newSeries = new List<ISeries>();
+        var sortedUsage = categoryUsage.OrderByDescending(x => x.Value).ToList();
+        var newSeriesList = new List<ISeries>();
+        bool needsReassignment = false;
 
-        foreach (var kvp in categoryUsage.OrderByDescending(x => x.Value))
+        // Current series map
+        var currentSeriesMap = CategorySeries.OfType<PieSeries<double>>().ToDictionary(s => s.Name ?? "", s => s);
+
+        foreach (var kvp in sortedUsage)
         {
-            var color = GetCategoryColor(kvp.Key);
-            newSeries.Add(new PieSeries<double>
+            var localizedName = kvp.Key;
+            // NOTE: PieSeries.Name is used for matching. 
+            // In InitializeCharts we set Name = kvp.Key (which is English category key). 
+            // But in LoadLocalData/LoadData we might be passing English keys. 
+            // Ensure we are consistent. Keys in dictionary are English keys (e.g. "Work").
+
+            if (currentSeriesMap.TryGetValue(kvp.Key, out var existingSeries))
             {
-                Values = new double[] { kvp.Value },
-                Name = kvp.Key,
-                Fill = new SolidColorPaint(color),
-                InnerRadius = 50
-            });
+                // Update existing
+                if (existingSeries.Values is IEnumerable<double> values)
+                {
+                    var arr = values.ToArray();
+                    if (arr.Length > 0 && Math.Abs(arr[0] - kvp.Value) > 0.01)
+                    {
+                        existingSeries.Values = new double[] { kvp.Value };
+                    }
+                }
+                else
+                {
+                    existingSeries.Values = new double[] { kvp.Value };
+                }
+
+                newSeriesList.Add(existingSeries);
+                currentSeriesMap.Remove(kvp.Key);
+            }
+            else
+            {
+                // Create new
+                var color = GetCategoryColor(kvp.Key);
+                newSeriesList.Add(new PieSeries<double>
+                {
+                    Values = new double[] { kvp.Value },
+                    Name = kvp.Key,
+                    Fill = new SolidColorPaint(color),
+                    InnerRadius = 50,
+                    ToolTipLabelFormatter = point => $"{point.Context.Series.Name}: {TimeSpan.FromSeconds(point.Coordinate.PrimaryValue).TotalMinutes:F0}m"
+                });
+                needsReassignment = true;
+            }
         }
 
-        CategorySeries = newSeries.ToArray();
+        // If items left in map, they are removed
+        if (currentSeriesMap.Count > 0) needsReassignment = true;
+
+        if (needsReassignment || CategorySeries.Length != newSeriesList.Count)
+        {
+            CategorySeries = newSeriesList.ToArray();
+        }
+        else
+        {
+            // Check order
+            bool sequenceChanged = false;
+            for (int i = 0; i < CategorySeries.Length; i++)
+            {
+                if (CategorySeries[i] != newSeriesList[i])
+                {
+                    sequenceChanged = true;
+                    break;
+                }
+            }
+
+            if (sequenceChanged)
+            {
+                CategorySeries = newSeriesList.ToArray();
+            }
+        }
     }
 
     /// <summary>
@@ -278,69 +417,57 @@ public partial class DashboardViewModel : ObservableObject
             : new SKColor(154, 160, 166); // 默认灰色
     }
 
+    // Chart Selection
+    [ObservableProperty]
+    private string _selectedChart = "Today";
+
+    [RelayCommand]
+    public void SwitchChart(string chartType)
+    {
+        SelectedChart = chartType;
+        // Trigger data update to reflect chart change
+        Task.Run(LoadDataAsync);
+    }
+
+    [RelayCommand]
+    public void NavigateToAppUsage()
+    {
+        var mainVM = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<MainViewModel>(App.Current.Host.Services);
+        mainVM.NavigateToAppUsageDetail();
+    }
+
+    [RelayCommand]
+    public void NavigateToWeeklyReport()
+    {
+        var mainVM = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<MainViewModel>(App.Current.Host.Services);
+        mainVM.NavigateToWeeklyReport();
+    }
+
     [RelayCommand]
     public async Task LoadDataAsync()
     {
+        // One-time load for historical data baseline
         var summary = await _appService.GetTodaySummaryAsync();
 
-        // 1. 今日总时长
-        var time = TimeSpan.FromSeconds(summary.TotalSeconds);
-        TotalTimeText = $"{time.Hours}h {time.Minutes}m";
+        // Cache yesterday's data for local calculation
+        _totalSecondsYesterday = summary.TotalSecondsYesterday;
 
-        // 2. 增长百分比
-        if (summary.TotalSecondsYesterday > 0)
-        {
-            double growth = ((double)summary.TotalSeconds - summary.TotalSecondsYesterday) / summary.TotalSecondsYesterday;
-            string sign = growth >= 0 ? "+" : "";
-            GrowthText = $"{sign}{growth:P0} from yesterday";
-        }
-        else
-        {
-            GrowthText = "N/A from yesterday";
-        }
-
-        // 3. App 切换次数
-        AppSwitchesText = summary.AppSwitches.ToString();
-
+        // Initialize Hourly Chart (Historical/Baseline)
         App.Current.Dispatcher.Invoke(() =>
         {
-            // 4. Top Apps 列表
-            TopApps.Clear();
-            foreach (var app in summary.TopApps)
-            {
-                TopApps.Add(new AppUsageViewModel(app));
-            }
-
             // 5. 每小时使用图表
             var hourlyValues = summary.HourlyUsage.Select(x => (double)x / 60.0).ToArray();
-
             if (HourlySeries.FirstOrDefault() is LineSeries<double> lineSeries)
             {
                 lineSeries.Values = hourlyValues;
             }
 
-            // 6. 分类饼图
-            var newSeries = new List<ISeries>();
-            int colorIdx = 0;
-
-            foreach (var kvp in summary.CategoryUsage.OrderByDescending(x => x.Value))
-            {
-                var color = GetCategoryColor(kvp.Key);
-                newSeries.Add(new PieSeries<double>
-                {
-                    Values = new double[] { kvp.Value },
-                    Name = kvp.Key,
-                    Fill = new SolidColorPaint(color),
-                    InnerRadius = 50 // 环形图效果
-                });
-                colorIdx++;
-            }
-
-            CategorySeries = newSeries.ToArray();
-
-            // 7. 更新分类图例
-            UpdateCategoryLegends(summary.CategoryUsage);
+            // Note: We DO NOT update TopApps or CategorySeries here anymore to avoid conflicts
+            // LocalAppMonitorService (via LoadLocalDataAsync) is the single source of truth for live data.
         });
+
+        // Trigger an immediate local update to mix historical + live data
+        App.Current.Dispatcher.Invoke(() => LoadLocalDataAsync());
     }
 }
 
@@ -415,4 +542,10 @@ public partial class MainViewModel : ObservableObject
 
     [RelayCommand]
     public void NavigateToSettings() => CurrentView = _serviceProvider.GetService(typeof(SettingsViewModel));
+
+    [RelayCommand]
+    public void NavigateToAppUsageDetail() => CurrentView = _serviceProvider.GetService(typeof(AppUsageDetailViewModel));
+
+    [RelayCommand]
+    public void NavigateToWeeklyReport() => CurrentView = _serviceProvider.GetService(typeof(WeeklyReportViewModel));
 }

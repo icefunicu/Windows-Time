@@ -5,13 +5,13 @@ namespace ScreenTimeWin.Data;
 
 public class ScreenTimeDbContext : DbContext
 {
-    public DbSet<AppIdentity> AppIdentities { get; set; }
-    public DbSet<UsageSession> UsageSessions { get; set; }
-    public DbSet<DailyAggregate> DailyAggregates { get; set; }
-    public DbSet<LimitRule> LimitRules { get; set; }
-    public DbSet<GlobalSetting> GlobalSettings { get; set; }
-    public DbSet<FocusSession> FocusSessions { get; set; }
-    public DbSet<InterceptEvent> InterceptEvents { get; set; }
+    public DbSet<AppIdentity> AppIdentities { get; set; } = null!;
+    public DbSet<UsageSession> UsageSessions { get; set; } = null!;
+    public DbSet<DailyAggregate> DailyAggregates { get; set; } = null!;
+    public DbSet<LimitRule> LimitRules { get; set; } = null!;
+    public DbSet<GlobalSetting> GlobalSettings { get; set; } = null!;
+    public DbSet<FocusSession> FocusSessions { get; set; } = null!;
+    public DbSet<InterceptEvent> InterceptEvents { get; set; } = null!;
 
     public string DbPath { get; }
 

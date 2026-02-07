@@ -15,6 +15,7 @@
             <local:PercentageToWidthConverter x:Key="PercentageToWidthConverter"/>
             <local:PercentToWidthConverter x:Key="PercentToWidthConverter" MaxWidth="200"/>
             <local:FirstCharConverter x:Key="FirstCharConverter"/>
+            <local:BoolToExpandCollapseConverter x:Key="BoolToExpandCollapseConverter"/>
 
              <!-- Simple Modern Style -->
              <Style TargetType="Button">
@@ -39,33 +40,7 @@
                  <Setter Property="VerticalAlignment" Value="Center"/>
              </Style>
 
-            <Style x:Key="NavButtonStyle" TargetType="RadioButton">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
-                <Setter Property="Padding" Value="15,10"/>
-                <Setter Property="Margin" Value="0,2"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="Cursor" Value="Hand"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="RadioButton">
-                            <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
-                                <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#19000000"/>
-                                </Trigger>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
-                                    <Setter Property="Foreground" Value="White"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

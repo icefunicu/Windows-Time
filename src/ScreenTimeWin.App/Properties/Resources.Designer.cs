@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ScreenTimeWin.App.Properties {
+namespace ScreenTimeWin.App.Properties
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,140 +23,1382 @@ namespace ScreenTimeWin.App.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
-        
+    public class Resources
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resources()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ScreenTimeWin.App.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Analytics.
         /// </summary>
-        public static string Analytics {
-            get {
+        public static string Analytics
+        {
+            get
+            {
                 return ResourceManager.GetString("Analytics", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Change Security PIN.
         /// </summary>
-        public static string ChangeSecurityPin {
-            get {
+        public static string ChangeSecurityPin
+        {
+            get
+            {
                 return ResourceManager.GetString("ChangeSecurityPin", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Clear All Data.
         /// </summary>
-        public static string ClearData {
-            get {
+        public static string ClearData
+        {
+            get
+            {
                 return ResourceManager.GetString("ClearData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
-        public static string Dashboard {
-            get {
+        public static string Dashboard
+        {
+            get
+            {
                 return ResourceManager.GetString("Dashboard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Export Data (CSV).
         /// </summary>
-        public static string ExportData {
-            get {
+        public static string ExportData
+        {
+            get
+            {
                 return ResourceManager.GetString("ExportData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Focus.
         /// </summary>
-        public static string Focus {
-            get {
+        public static string Focus
+        {
+            get
+            {
                 return ResourceManager.GetString("Focus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Limits.
         /// </summary>
-        public static string Limits {
-            get {
+        public static string Limits
+        {
+            get
+            {
                 return ResourceManager.GetString("Limits", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
-        public static string Settings {
-            get {
+        public static string Settings
+        {
+            get
+            {
                 return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Toggle Dark/Light Theme.
         /// </summary>
-        public static string ToggleTheme {
-            get {
+        public static string ToggleTheme
+        {
+            get
+            {
                 return ResourceManager.GetString("ToggleTheme", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Top Applications.
         /// </summary>
-        public static string TopApplications {
-            get {
+        public static string TopApplications
+        {
+            get
+            {
                 return ResourceManager.GetString("TopApplications", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Total Screen Time Today.
         /// </summary>
-        public static string TotalScreenTimeToday {
-            get {
+        public static string TotalScreenTimeToday
+        {
+            get
+            {
                 return ResourceManager.GetString("TotalScreenTimeToday", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        public static string Today
+        {
+            get
+            {
+                return ResourceManager.GetString("Today", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Total Time.
+        /// </summary>
+        public static string TotalTime
+        {
+            get
+            {
+                return ResourceManager.GetString("TotalTime", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Time.
+        /// </summary>
+        public static string FocusTime
+        {
+            get
+            {
+                return ResourceManager.GetString("FocusTime", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Entertainment.
+        /// </summary>
+        public static string Entertainment
+        {
+            get
+            {
+                return ResourceManager.GetString("Entertainment", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to App switches.
+        /// </summary>
+        public static string AppSwitches
+        {
+            get
+            {
+                return ResourceManager.GetString("AppSwitches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Time by Category.
+        /// </summary>
+        public static string TimeByCategory
+        {
+            get
+            {
+                return ResourceManager.GetString("TimeByCategory", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} from yesterday.
+        /// </summary>
+        public static string GrowthFromYesterday
+        {
+            get
+            {
+                return ResourceManager.GetString("GrowthFromYesterday", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Start your day by focusing on your goals!.
+        /// </summary>
+        public static string MotivationStart
+        {
+            get
+            {
+                return ResourceManager.GetString("MotivationStart", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to You've focused longer than {0}% of users today!.
+        /// </summary>
+        public static string MotivationBetterThan
+        {
+            get
+            {
+                return ResourceManager.GetString("MotivationBetterThan", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to Statistics.
+        /// </summary>
+        public static string StatisticsTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("StatisticsTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string Refresh
+        {
+            get
+            {
+                return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Hourly Activity.
+        /// </summary>
+        public static string HourlyActivity
+        {
+            get
+            {
+                return ResourceManager.GetString("HourlyActivity", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Category Statistics.
+        /// </summary>
+        public static string CategoryStats
+        {
+            get
+            {
+                return ResourceManager.GetString("CategoryStats", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Seconds.
+        /// </summary>
+        public static string Seconds
+        {
+            get
+            {
+                return ResourceManager.GetString("Seconds", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Usage Limits.
+        /// </summary>
+        public static string UsageLimitsTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("UsageLimitsTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Used.
+        /// </summary>
+        public static string Used
+        {
+            get
+            {
+                return ResourceManager.GetString("Used", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remaining.
+        /// </summary>
+        public static string Remaining
+        {
+            get
+            {
+                return ResourceManager.GetString("Remaining", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Limit List.
+        /// </summary>
+        public static string LimitList
+        {
+            get
+            {
+                return ResourceManager.GetString("LimitList", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string Active
+        {
+            get
+            {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tips.
+        /// </summary>
+        public static string Tips
+        {
+            get
+            {
+                return ResourceManager.GetString("Tips", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Setting daily limits helps control usage.
+        /// </summary>
+        public static string LimitTip1
+        {
+            get
+            {
+                return ResourceManager.GetString("LimitTip1", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Curfew mode blocks apps during specific hours.
+        /// </summary>
+        public static string LimitTip2
+        {
+            get
+            {
+                return ResourceManager.GetString("LimitTip2", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Category limits manage multiple apps at once.
+        /// </summary>
+        public static string LimitTip3
+        {
+            get
+            {
+                return ResourceManager.GetString("LimitTip3", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add Limit.
+        /// </summary>
+        public static string AddLimit
+        {
+            get
+            {
+                return ResourceManager.GetString("AddLimit", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Actions.
+        /// </summary>
+        public static string QuickActions
+        {
+            get
+            {
+                return ResourceManager.GetString("QuickActions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Mode.
+        /// </summary>
+        public static string FocusModeTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("FocusModeTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Keep Focusing.
+        /// </summary>
+        public static string KeepFocusing
+        {
+            get
+            {
+                return ResourceManager.GetString("KeepFocusing", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Start Focus.
+        /// </summary>
+        public static string StartFocus
+        {
+            get
+            {
+                return ResourceManager.GetString("StartFocus", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Stop Focus.
+        /// </summary>
+        public static string StopFocus
+        {
+            get
+            {
+                return ResourceManager.GetString("StopFocus", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sessions Completed.
+        /// </summary>
+        public static string SessionsCompleted
+        {
+            get
+            {
+                return ResourceManager.GetString("SessionsCompleted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Do Not Disturb.
+        /// </summary>
+        public static string DoNotDisturb
+        {
+            get
+            {
+                return ResourceManager.GetString("DoNotDisturb", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Blacklist Mode.
+        /// </summary>
+        public static string BlacklistMode
+        {
+            get
+            {
+                return ResourceManager.GetString("BlacklistMode", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Allowed Apps.
+        /// </summary>
+        public static string AllowedApps
+        {
+            get
+            {
+                return ResourceManager.GetString("AllowedApps", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Blocked Apps.
+        /// </summary>
+        public static string BlockedApps
+        {
+            get
+            {
+                return ResourceManager.GetString("BlockedApps", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Operations.
+        /// </summary>
+        public static string Operations
+        {
+            get
+            {
+                return ResourceManager.GetString("Operations", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Export Format:.
+        /// </summary>
+        public static string ExportFormat
+        {
+            get
+            {
+                return ResourceManager.GetString("ExportFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to App Updates.
+        /// </summary>
+        public static string AppUpdates
+        {
+            get
+            {
+                return ResourceManager.GetString("AppUpdates", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Check Update.
+        /// </summary>
+        public static string CheckUpdate
+        {
+            get
+            {
+                return ResourceManager.GetString("CheckUpdate", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Preferences.
+        /// </summary>
+        public static string Preferences
+        {
+            get
+            {
+                return ResourceManager.GetString("Preferences", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Mock Mode (Requires Restart).
+        /// </summary>
+        public static string MockMode
+        {
+            get
+            {
+                return ResourceManager.GetString("MockMode", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Test UI without background service..
+        /// </summary>
+        public static string MockModeTip
+        {
+            get
+            {
+                return ResourceManager.GetString("MockModeTip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Start with Windows.
+        /// </summary>
+        public static string StartWithWindows
+        {
+            get
+            {
+                return ResourceManager.GetString("StartWithWindows", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Launch app on login..
+        /// </summary>
+        public static string StartWithWindowsTip
+        {
+            get
+            {
+                return ResourceManager.GetString("StartWithWindowsTip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Old PIN.
+        /// </summary>
+        public static string OldPin
+        {
+            get
+            {
+                return ResourceManager.GetString("OldPin", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New PIN.
+        /// </summary>
+        public static string NewPin
+        {
+            get
+            {
+                return ResourceManager.GetString("NewPin", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save
+        {
+            get
+            {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to App Category Rules.
+        /// </summary>
+        public static string AppCategoryRules
+        {
+            get
+            {
+                return ResourceManager.GetString("AppCategoryRules", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Custom categories affect Dashboard and Focus mode..
+        /// </summary>
+        public static string CategoryRulesTip
+        {
+            get
+            {
+                return ResourceManager.GetString("CategoryRulesTip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add
+        {
+            get
+            {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Process Name.
+        /// </summary>
+        public static string ProcessName
+        {
+            get
+            {
+                return ResourceManager.GetString("ProcessName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Enter process name (no .exe).
+        /// </summary>
+        public static string ProcessNameTip
+        {
+            get
+            {
+                return ResourceManager.GetString("ProcessNameTip", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to App Usage.
+        /// </summary>
+        public static string AppUsageTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("AppUsageTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to 7-Day Avg..
+        /// </summary>
+        public static string SevenDayAvg
+        {
+            get
+            {
+                return ResourceManager.GetString("SevenDayAvg", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Set Daily Limit.
+        /// </summary>
+        public static string SetDailyLimit
+        {
+            get
+            {
+                return ResourceManager.GetString("SetDailyLimit", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Block in Focus.
+        /// </summary>
+        public static string BlockInFocus
+        {
+            get
+            {
+                return ResourceManager.GetString("BlockInFocus", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Always Allow.
+        /// </summary>
+        public static string AlwaysAllow
+        {
+            get
+            {
+                return ResourceManager.GetString("AlwaysAllow", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Top Titles:.
+        /// </summary>
+        public static string TopTitles
+        {
+            get
+            {
+                return ResourceManager.GetString("TopTitles", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Sessions.
+        /// </summary>
+        public static string RecentSessions
+        {
+            get
+            {
+                return ResourceManager.GetString("RecentSessions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Download and Install.
+        /// </summary>
+        public static string DownloadAndInstall
+        {
+            get
+            {
+                return ResourceManager.GetString("DownloadAndInstall", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Weekly Report.
+        /// </summary>
+        public static string WeeklyReportTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("WeeklyReportTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Total Screen Time.
+        /// </summary>
+        public static string TotalScreenTime
+        {
+            get
+            {
+                return ResourceManager.GetString("TotalScreenTime", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Compared to last week.
+        /// </summary>
+        public static string ComparedToLastWeek
+        {
+            get
+            {
+                return ResourceManager.GetString("ComparedToLastWeek", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Daily Average.
+        /// </summary>
+        public static string DailyAverage
+        {
+            get
+            {
+                return ResourceManager.GetString("DailyAverage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Peak Day.
+        /// </summary>
+        public static string PeakDay
+        {
+            get
+            {
+                return ResourceManager.GetString("PeakDay", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Most Productive Day.
+        /// </summary>
+        public static string MostProductiveDay
+        {
+            get
+            {
+                return ResourceManager.GetString("MostProductiveDay", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Daily Usage.
+        /// </summary>
+        public static string DailyUsage
+        {
+            get
+            {
+                return ResourceManager.GetString("DailyUsage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Screen Time.
+        /// </summary>
+        public static string ApplicationTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string Loading { get { return ResourceManager.GetString("Loading", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Keep going!.
+        /// </summary>
+        public static string MotivationDefault { get { return ResourceManager.GetString("MotivationDefault", resourceCulture); } }
+
+        public static string TimeFormatHM { get { return ResourceManager.GetString("TimeFormatHM", resourceCulture); } }
+        public static string TimeFormatM { get { return ResourceManager.GetString("TimeFormatM", resourceCulture); } }
+        public static string NoLimit { get { return ResourceManager.GetString("NoLimit", resourceCulture); } }
+        public static string ThisWeek { get { return ResourceManager.GetString("ThisWeek", resourceCulture); } }
+        public static string LastWeek { get { return ResourceManager.GetString("LastWeek", resourceCulture); } }
+        public static string FocusDefaultLabel { get { return ResourceManager.GetString("FocusDefaultLabel", resourceCulture); } }
+        public static string UrgentLimitExample { get { return ResourceManager.GetString("UrgentLimitExample", resourceCulture); } }
+        public static string FocusSettingsTitle { get { return ResourceManager.GetString("FocusSettingsTitle", resourceCulture); } }
+        public static string FocusSettingsMsg { get { return ResourceManager.GetString("FocusSettingsMsg", resourceCulture); } }
+        public static string AlwaysAllowTitle { get { return ResourceManager.GetString("AlwaysAllowTitle", resourceCulture); } }
+        public static string AlwaysAllowMsg { get { return ResourceManager.GetString("AlwaysAllowMsg", resourceCulture); } }
+        public static string AddLimitTitle { get { return ResourceManager.GetString("AddLimitTitle", resourceCulture); } }
+        public static string AddLimitMsg { get { return ResourceManager.GetString("AddLimitMsg", resourceCulture); } }
+        public static string CategoryLearning { get { return ResourceManager.GetString("CategoryLearning", resourceCulture); } }
+        public static string CategoryGames { get { return ResourceManager.GetString("CategoryGames", resourceCulture); } }
+        public static string CategoryMedia { get { return ResourceManager.GetString("CategoryMedia", resourceCulture); } }
+        public static string CategoryCommunication { get { return ResourceManager.GetString("CategoryCommunication", resourceCulture); } }
+        public static string CategoryProductivity { get { return ResourceManager.GetString("CategoryProductivity", resourceCulture); } }
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to Checking.
+        /// </summary>
+        public static string Checking { get { return ResourceManager.GetString("Checking", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Running.
+        /// </summary>
+        public static string Running { get { return ResourceManager.GetString("Running", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Stopped / Not Reachable.
+        /// </summary>
+        public static string Stopped { get { return ResourceManager.GetString("Stopped", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string StatusError { get { return ResourceManager.GetString("StatusError", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Uptime: {0}h {1}m.
+        /// </summary>
+        public static string UptimeFormat { get { return ResourceManager.GetString("UptimeFormat", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Not checked.
+        /// </summary>
+        public static string UpdateNotChecked { get { return ResourceManager.GetString("UpdateNotChecked", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Checking for updates....
+        /// </summary>
+        public static string UpdateChecking { get { return ResourceManager.GetString("UpdateChecking", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New version found: {0}.
+        /// </summary>
+        public static string UpdateFound { get { return ResourceManager.GetString("UpdateFound", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Latest version installed: v{0}.
+        /// </summary>
+        public static string UpdateLatest { get { return ResourceManager.GetString("UpdateLatest", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Check failed: {0}.
+        /// </summary>
+        public static string UpdateError { get { return ResourceManager.GetString("UpdateError", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Download complete! Install now? App will close automatically..
+        /// </summary>
+        public static string UpdateDownloadComplete { get { return ResourceManager.GetString("UpdateDownloadComplete", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Install Update.
+        /// </summary>
+        public static string UpdateInstallTitle { get { return ResourceManager.GetString("UpdateInstallTitle", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Download failed: {0}.
+        /// </summary>
+        public static string UpdateDownloadError { get { return ResourceManager.GetString("UpdateDownloadError", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string ErrorTitle { get { return ResourceManager.GetString("ErrorTitle", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        public static string SuccessTitle { get { return ResourceManager.GetString("SuccessTitle", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to PIN updated successfully..
+        /// </summary>
+        public static string PinUpdateSuccess { get { return ResourceManager.GetString("PinUpdateSuccess", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to update PIN. Check old PIN..
+        /// </summary>
+        public static string PinUpdateError { get { return ResourceManager.GetString("PinUpdateError", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to clear all usage data? This cannot be undone..
+        /// </summary>
+        public static string ClearDataConfirm { get { return ResourceManager.GetString("ClearDataConfirm", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Clear.
+        /// </summary>
+        public static string ClearDataTitle { get { return ResourceManager.GetString("ClearDataTitle", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Data cleared successfully..
+        /// </summary>
+        public static string ClearDataSuccess { get { return ResourceManager.GetString("ClearDataSuccess", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to clear data: {0}.
+        /// </summary>
+        public static string ClearDataError { get { return ResourceManager.GetString("ClearDataError", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Data exported to: {0}.
+        /// </summary>
+        public static string ExportSuccess { get { return ResourceManager.GetString("ExportSuccess", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Export Success.
+        /// </summary>
+        public static string ExportSuccessTitle { get { return ResourceManager.GetString("ExportSuccessTitle", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Export failed or returned empty path..
+        /// </summary>
+        public static string ExportFail { get { return ResourceManager.GetString("ExportFail", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Export error: {0}.
+        /// </summary>
+        public static string ExportError { get { return ResourceManager.GetString("ExportError", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to save category rules: {0}.
+        /// </summary>
+        public static string SaveCategoryError { get { return ResourceManager.GetString("SaveCategoryError", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Development.
+        /// </summary>
+        public static string CategoryDevelopment { get { return ResourceManager.GetString("CategoryDevelopment", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Work.
+        /// </summary>
+        public static string CategoryWork { get { return ResourceManager.GetString("CategoryWork", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Browser.
+        /// </summary>
+        public static string CategoryBrowser { get { return ResourceManager.GetString("CategoryBrowser", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Social.
+        /// </summary>
+        public static string CategorySocial { get { return ResourceManager.GetString("CategorySocial", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Entertainment.
+        /// </summary>
+        public static string CategoryEntertainment { get { return ResourceManager.GetString("CategoryEntertainment", resourceCulture); } }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string CategoryOther { get { return ResourceManager.GetString("CategoryOther", resourceCulture); } }
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to ScreenTimeWin - Startup Error.
+        /// </summary>
+        public static string StartupErrorTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("StartupErrorTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Application Failed to Start.
+        /// </summary>
+        public static string AppFailedToStart
+        {
+            get
+            {
+                return ResourceManager.GetString("AppFailedToStart", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to We encountered a critical error during initialization.
+        /// </summary>
+        public static string CriticalErrorInit
+        {
+            get
+            {
+                return ResourceManager.GetString("CriticalErrorInit", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Open Logs Folder.
+        /// </summary>
+        public static string OpenLogs
+        {
+            get
+            {
+                return ResourceManager.GetString("OpenLogs", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Error.
+        /// </summary>
+        public static string CopyError
+        {
+            get
+            {
+                return ResourceManager.GetString("CopyError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string Exit
+        {
+            get
+            {
+                return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Time's Up!.
+        /// </summary>
+        public static string TimesUpTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("TimesUpTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Time's Up!.
+        /// </summary>
+        public static string TimesUpHeader
+        {
+            get
+            {
+                return ResourceManager.GetString("TimesUpHeader", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to You've reached your daily limit for.
+        /// </summary>
+        public static string DailyLimitReached
+        {
+            get
+            {
+                return ResourceManager.GetString("DailyLimitReached", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Close App.
+        /// </summary>
+        public static string CloseApp
+        {
+            get
+            {
+                return ResourceManager.GetString("CloseApp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to More Time (5 Min).
+        /// </summary>
+        public static string MoreTime
+        {
+            get
+            {
+                return ResourceManager.GetString("MoreTime", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Request Unlock.
+        /// </summary>
+        public static string RequestUnlock
+        {
+            get
+            {
+                return ResourceManager.GetString("RequestUnlock", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Coming Soon / Under Construction.
+        /// </summary>
+        public static string ComingSoon
+        {
+            get
+            {
+                return ResourceManager.GetString("ComingSoon", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Weekly Report.
+        /// </summary>
+        public static string WeeklyReport
+        {
+            get
+            {
+                return ResourceManager.GetString("WeeklyReport", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Your weekly usage insights are ready.
+        /// </summary>
+        public static string WeeklyInsightsReady
+        {
+            get
+            {
+                return ResourceManager.GetString("WeeklyInsightsReady", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to View Report →.
+        /// </summary>
+        public static string ViewReport
+        {
+            get
+            {
+                return ResourceManager.GetString("ViewReport", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No Data Yet.
+        /// </summary>
+        public static string NoDataTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("NoDataTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Start using your apps and data will appear here automatically..
+        /// </summary>
+        public static string NoDataHint
+        {
+            get
+            {
+                return ResourceManager.GetString("NoDataHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Near Limit.
+        /// </summary>
+        public static string NearLimit
+        {
+            get
+            {
+                return ResourceManager.GetString("NearLimit", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Select Application.
+        /// </summary>
+        public static string SelectApp
+        {
+            get
+            {
+                return ResourceManager.GetString("SelectApp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Daily Limit.
+        /// </summary>
+        public static string DailyLimitLabel
+        {
+            get
+            {
+                return ResourceManager.GetString("DailyLimitLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Curfew Mode.
+        /// </summary>
+        public static string CurfewMode
+        {
+            get
+            {
+                return ResourceManager.GetString("CurfewMode", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Block app during specific hours.
+        /// </summary>
+        public static string CurfewModeHint
+        {
+            get
+            {
+                return ResourceManager.GetString("CurfewModeHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        public static string From
+        {
+            get
+            {
+                return ResourceManager.GetString("From", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string To
+        {
+            get
+            {
+                return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Please select an application.
+        /// </summary>
+        public static string PleaseSelectApp
+        {
+            get
+            {
+                return ResourceManager.GetString("PleaseSelectApp", resourceCulture);
             }
         }
     }

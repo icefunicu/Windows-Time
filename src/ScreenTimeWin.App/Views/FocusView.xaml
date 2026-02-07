@@ -4,247 +4,142 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:ScreenTimeWin.App.ViewModels"
+             xmlns:p="clr-namespace:ScreenTimeWin.App.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="900"
              Background="{DynamicResource WindowBackgroundBrush}">
     
     <Grid Margin="24">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.2*"/> <!-- 左侧：倒计时 -->
-            <ColumnDefinition Width="20"/>   <!-- 间距 -->
-            <ColumnDefinition Width="*"/>    <!-- 右侧：应用列表 -->
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/> <!-- Left: Timer -->
+                <ColumnDefinition Width="24"/>   <!-- Gap -->
+                <ColumnDefinition Width="*"/>    <!-- Right: Report & Apps -->
+            </Grid.ColumnDefinitions>
 
-        <!-- 左侧：Focus Mode 主区域 -->
-        <Border Grid.Column="0" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="12" Padding="30">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="20" ShadowDepth="2" Opacity="0.06" Color="#000000"/>
-            </Border.Effect>
-            
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>  <!-- 标题 -->
-                    <RowDefinition Height="*"/>     <!-- 倒计时区域 -->
-                    <RowDefinition Height="Auto"/>  <!-- 底部统计 -->
-                </Grid.RowDefinitions>
-                
-                <!-- 标题 -->
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                    <Border Width="28" Height="28" CornerRadius="6" Background="{DynamicResource AccentBrush}" Margin="0,0,12,0">
-                        <TextBlock Text="🎯" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <TextBlock Text="🎯 专注模式" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"
-                               Foreground="{DynamicResource PrimaryTextBrush}"/>
-                </StackPanel>
-                
-                <!-- 圆形倒计时区域 -->
-                <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <!-- 圆形进度背景 -->
-                    <Ellipse Width="220" Height="220" Stroke="{DynamicResource ProgressBackgroundBrush}" 
-                             StrokeThickness="12" Fill="Transparent"/>
+            <!-- Left: Focus Mode Timer -->
+            <Border Grid.Column="0" Style="{DynamicResource CardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>  <!-- Header -->
+                        <RowDefinition Height="400"/>   <!-- Timer Visual -->
+                        <RowDefinition Height="Auto"/>  <!-- Controls -->
+                    </Grid.RowDefinitions>
                     
-                    <!-- 圆形进度条（使用Arc模拟） -->
-                    <Ellipse Width="220" Height="220" StrokeThickness="12" Fill="Transparent">
-                        <Ellipse.Stroke>
-                            <SolidColorBrush Color="#1967D2"/>
-                        </Ellipse.Stroke>
-                        <Ellipse.RenderTransform>
-                            <RotateTransform Angle="-90" CenterX="110" CenterY="110"/>
-                        </Ellipse.RenderTransform>
-                        <!-- 使用StrokeDashArray模拟进度 -->
-                        <Ellipse.StrokeDashArray>
-                            <DoubleCollection>
-                                <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib">5.5</sys:Double>
-                                <sys:Double xmlns:sys="clr-namespace:System;assembly=mscorlib">100</sys:Double>
-                            </DoubleCollection>
-                        </Ellipse.StrokeDashArray>
-                    </Ellipse>
+                    <!-- Title -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                        <Border Width="32" Height="32" CornerRadius="8" Background="{DynamicResource AccentBrush}" Margin="0,0,12,0">
+                            <TextBlock Text="🎯" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="{x:Static p:Resources.FocusModeTitle}" FontSize="22" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                    </StackPanel>
                     
-                    <!-- 内部内容 -->
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding RemainingTimeText}" FontSize="48" FontWeight="Bold" 
-                                   HorizontalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}"/>
-                        <TextBlock Text="保持专注" FontSize="14" HorizontalAlignment="Center" 
-                                   Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,4,0,0"/>
-                        <TextBlock Text="{Binding FocusLabel}" FontSize="12" HorizontalAlignment="Center" 
-                                   Foreground="{DynamicResource AccentBrush}" Margin="0,4,0,0"/>
+                    <!-- Timer Visual -->
+                    <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                         <!-- Placeholder for Circular Timer -->
+                         <Ellipse Width="300" Height="300" Stroke="{DynamicResource ProgressBackgroundBrush}" StrokeThickness="20"/>
+                         <Ellipse Width="300" Height="300" Stroke="{DynamicResource AccentBrush}" StrokeThickness="20" StrokeDashArray="60 100" RenderTransformOrigin="0.5,0.5">
+                             <Ellipse.RenderTransform>
+                                 <RotateTransform Angle="-90"/>
+                             </Ellipse.RenderTransform>
+                         </Ellipse>
+                         
+                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                             <TextBlock Text="{Binding RemainingTimeText}" FontSize="64" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextBrush}" HorizontalAlignment="Center"/>
+                             <TextBlock Text="{Binding FocusLabel}" FontSize="16" Foreground="{DynamicResource SecondaryTextBrush}" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                         </StackPanel>
+                    </Grid>
+                    
+                    <!-- Controls -->
+                    <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20,0,0">
+                         <!-- Start/Stop Buttons -->
+                         <Button Command="{Binding StartFocusCommand}" Content="{x:Static p:Resources.StartFocus}" 
+                                 Visibility="{Binding IsFocusActive, Converter={StaticResource InverseBooleanConverter}}"
+                                 Padding="40,16" FontSize="16" FontWeight="SemiBold" Background="{DynamicResource AccentBrush}" Foreground="White">
+                             <Button.Template>
+                                 <ControlTemplate TargetType="Button">
+                                     <Border Background="{TemplateBinding Background}" CornerRadius="28" Padding="{TemplateBinding Padding}">
+                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                     </Border>
+                                 </ControlTemplate>
+                             </Button.Template>
+                         </Button>
+                                 
+                         <Button Command="{Binding StopFocusCommand}" Content="{x:Static p:Resources.StopFocus}" 
+                                 Visibility="{Binding IsFocusActive, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                 Padding="40,16" FontSize="16" FontWeight="SemiBold" Background="{DynamicResource ErrorBrush}" Foreground="White">
+                             <Button.Template>
+                                 <ControlTemplate TargetType="Button">
+                                     <Border Background="{TemplateBinding Background}" CornerRadius="28" Padding="{TemplateBinding Padding}">
+                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                     </Border>
+                                 </ControlTemplate>
+                             </Button.Template>
+                         </Button>
+                                 
+                         <!-- Session Count -->
+                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                              <TextBlock Text="{x:Static p:Resources.SessionsCompleted}" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                              <TextBlock Text="{Binding SessionsCompletedToday}" FontWeight="Bold" Margin="8,0,0,0"/>
+                         </StackPanel>
                     </StackPanel>
                 </Grid>
-                
-                <!-- 控制按钮 -->
-                <StackPanel Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,20">
-                    <!-- 开始按钮 -->
-                    <Button Content="开始专注" Command="{Binding StartFocusCommand}" 
-                            Background="#1967D2" Foreground="White" Padding="30,12" FontSize="14" FontWeight="SemiBold"
-                            Visibility="{Binding IsFocusActive, Converter={StaticResource InverseBooleanConverter}}">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" CornerRadius="24" Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                    
-                    <!-- 停止按钮 -->
-                    <Button Content="结束专注" Command="{Binding StopFocusCommand}" 
-                            Background="#D93025" Foreground="White" Padding="30,12" FontSize="14" FontWeight="SemiBold"
-                            Visibility="{Binding IsFocusActive, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" CornerRadius="24" Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                </StackPanel>
-                
-                <!-- 底部统计栏 -->
-                <Border Grid.Row="2" Background="{DynamicResource WindowBackgroundBrush}" CornerRadius="8" Padding="16,12">
+            </Border>
+
+            <!-- Right: Report & Apps -->
+            <StackPanel Grid.Column="2">
+                 <!-- Weekly Report Card (Top Right) -->
+                 <Button Command="{Binding NavigateToWeeklyReportCommand}" 
+                        Padding="0" Margin="{StaticResource CardMargin}"
+                        Cursor="Hand" BorderThickness="0">
+                     <Button.Template>
+                         <ControlTemplate TargetType="Button">
+                             <Border Background="{DynamicResource AccentBrush}" CornerRadius="{StaticResource CardCornerRadius}" Padding="20">
+                                 <Grid>
+                                     <Grid.ColumnDefinitions>
+                                         <ColumnDefinition Width="*"/>
+                                         <ColumnDefinition Width="Auto"/>
+                                     </Grid.ColumnDefinitions>
+                                     <StackPanel VerticalAlignment="Center">
+                                          <TextBlock Text="Weekly Insights" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,4"/>
+                                          <TextBlock Text="View detailed report" FontSize="14" Foreground="#CCFFFFFF"/>
+                                     </StackPanel>
+                                     <TextBlock Grid.Column="1" Text="📊" FontSize="40" Opacity="0.3" VerticalAlignment="Center"/>
+                                 </Grid>
+                             </Border>
+                         </ControlTemplate>
+                     </Button.Template>
+                </Button>
+
+                <!-- Allowed Apps Card -->
+                <Border Style="{DynamicResource CardStyle}">
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                             <RowDefinition Height="Auto"/>
+                             <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
                         
-                        <!-- Sessions Completed -->
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="今日完成会话" FontSize="13" 
-                                       Foreground="{DynamicResource SecondaryTextBrush}" VerticalAlignment="Center"/>
-                            <Border Background="{DynamicResource AccentBrush}" CornerRadius="10" 
-                                    Padding="10,3" Margin="12,0,0,0">
-                                <TextBlock Text="{Binding SessionsCompletedToday}" FontSize="12" FontWeight="SemiBold" 
-                                           Foreground="White"/>
-                            </Border>
-                        </StackPanel>
+                        <TextBlock Text="{x:Static p:Resources.AllowedApps}" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
                         
-                        <!-- Do Not Disturb -->
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <TextBlock Text="勿扰模式" FontSize="13" 
-                                       Foreground="{DynamicResource SecondaryTextBrush}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <ToggleButton IsChecked="{Binding DoNotDisturb}" Width="44" Height="24">
-                                <ToggleButton.Template>
-                                    <ControlTemplate TargetType="ToggleButton">
-                                        <Border x:Name="border" Background="#E8EAED" CornerRadius="12" Width="44" Height="24">
-                                            <Ellipse x:Name="thumb" Width="20" Height="20" Fill="White" 
-                                                     HorizontalAlignment="Left" Margin="2,0,0,0">
-                                                <Ellipse.Effect>
-                                                    <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.3"/>
-                                                </Ellipse.Effect>
-                                            </Ellipse>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsChecked" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="#1967D2"/>
-                                                <Setter TargetName="thumb" Property="HorizontalAlignment" Value="Right"/>
-                                                <Setter TargetName="thumb" Property="Margin" Value="0,0,2,0"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                        </StackPanel>
+                        <ScrollViewer Grid.Row="1" MaxHeight="300" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding AllowedApps}">
+                                 <ItemsControl.ItemTemplate>
+                                     <DataTemplate>
+                                         <Grid Margin="0,6">
+                                              <Grid.ColumnDefinitions>
+                                                  <ColumnDefinition Width="Auto"/>
+                                                  <ColumnDefinition Width="*"/>
+                                                  <ColumnDefinition Width="Auto"/>
+                                              </Grid.ColumnDefinitions>
+                                              <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center"/>
+                                              <TextBlock Grid.Column="1" Text="{Binding DisplayName}" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                         </Grid>
+                                     </DataTemplate>
+                                 </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
-            </Grid>
-        </Border>
-
-        <!-- 右侧：应用列表 -->
-        <Border Grid.Column="2" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="12" Padding="0,16">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="20" ShadowDepth="2" Opacity="0.06" Color="#000000"/>
-            </Border.Effect>
-            
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>  <!-- Allowed Apps 标题 -->
-                    <RowDefinition Height="*"/>     <!-- Allowed Apps 列表 -->
-                    <RowDefinition Height="Auto"/>  <!-- Blocked 标题 -->
-                    <RowDefinition Height="Auto"/>  <!-- Blocked 列表 -->
-                </Grid.RowDefinitions>
-                
-                <!-- Allowed Apps 标题 -->
-                <Grid Margin="20,0,20,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="允许的应用" FontSize="15" FontWeight="SemiBold" 
-                               Foreground="{DynamicResource PrimaryTextBrush}"/>
-                    <TextBlock Grid.Column="1" Text="›" FontSize="16" Foreground="{DynamicResource SecondaryTextBrush}" 
-                               Cursor="Hand" VerticalAlignment="Center"/>
-                </Grid>
-                
-                <!-- Allowed Apps 列表 -->
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding AllowedApps}" Margin="12,0">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="Transparent" CornerRadius="8" Padding="10,8" Margin="0,2">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <!-- 图标占位 -->
-                                    <Border Width="28" Height="28" CornerRadius="6" 
-                                            Background="{DynamicResource ProgressBackgroundBrush}" Margin="0,0,10,0">
-                                        <TextBlock Text="📱" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    
-                                    <!-- 应用名 -->
-                                    <TextBlock Grid.Column="1" Text="{Binding DisplayName}" FontSize="13" 
-                                               VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}"/>
-                                    
-                                    <!-- 勾选状态 -->
-                                    <Ellipse Grid.Column="2" Width="20" Height="20" Fill="#1E8E3E" 
-                                             Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                
-                <!-- Blocked 标题 -->
-                <Grid Grid.Row="2" Margin="20,16,20,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="已屏蔽" FontSize="15" FontWeight="SemiBold" 
-                               Foreground="{DynamicResource PrimaryTextBrush}"/>
-                    <TextBlock Grid.Column="1" Text="›" FontSize="16" Foreground="{DynamicResource SecondaryTextBrush}" 
-                               Cursor="Hand" VerticalAlignment="Center"/>
-                </Grid>
-                
-                <!-- Blocked 列表 -->
-                <ItemsControl Grid.Row="3" ItemsSource="{Binding BlockedApps}" Margin="12,0,12,12">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="Transparent" CornerRadius="8" Padding="10,8" Margin="0,2">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <!-- 图标占位 -->
-                                    <Border Width="28" Height="28" CornerRadius="6" 
-                                            Background="{DynamicResource ProgressBackgroundBrush}" Margin="0,0,10,0">
-                                        <TextBlock Text="🚫" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    
-                                    <!-- 应用名 -->
-                                    <TextBlock Grid.Column="1" Text="{Binding DisplayName}" FontSize="13" 
-                                               VerticalAlignment="Center" Foreground="{DynamicResource SecondaryTextBrush}"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-        </Border>
+            </StackPanel>
     </Grid>
 </UserControl>
+

@@ -8,13 +8,62 @@
         xmlns:views="clr-namespace:ScreenTimeWin.App.Views"
         xmlns:props="clr-namespace:ScreenTimeWin.App.Properties"
         mc:Ignorable="d"
-        Title="Screen Time" Height="600" Width="900"
+        Title="{x:Static props:Resources.ApplicationTitle}" 
+        Height="650" Width="1000"
+        MinHeight="550" MinWidth="800"
         Closing="Window_Closing"
         WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
         Background="{DynamicResource WindowBackgroundBrush}">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="1" CornerRadius="0" CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
     
     <Window.Resources>
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
+        <Style x:Key="WindowControlButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E5E5E5"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#CACACB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="WindowCloseButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowControlButtonStyle}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E81123"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#F1707A"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <views:DashboardView />
         </DataTemplate>
@@ -39,38 +88,123 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Header -->
+            <RowDefinition Height="*"/>    <!-- Content -->
+        </Grid.RowDefinitions>
 
-        <!-- Sidebar -->
-        <Border Background="{DynamicResource CardBackgroundBrush}" Padding="10">
-            <StackPanel>
-                <TextBlock Text="ScreenTime" FontSize="20" FontWeight="Bold" Margin="10,10,10,30" Foreground="{DynamicResource AccentBrush}"/>
-                
-                <RadioButton Content="{x:Static props:Resources.Dashboard}" Style="{DynamicResource NavButtonStyle}" Command="{Binding NavigateToDashboardCommand}" IsChecked="True"/>
-                <RadioButton Content="{x:Static props:Resources.Analytics}" Style="{DynamicResource NavButtonStyle}" Command="{Binding NavigateToAnalyticsCommand}"/>
-                <RadioButton Content="{x:Static props:Resources.Limits}" Style="{DynamicResource NavButtonStyle}" Command="{Binding NavigateToLimitsCommand}"/>
-                <RadioButton Content="{x:Static props:Resources.Focus}" Style="{DynamicResource NavButtonStyle}" Command="{Binding NavigateToFocusCommand}"/>
-                <RadioButton Content="{x:Static props:Resources.Settings}" Style="{DynamicResource NavButtonStyle}" Command="{Binding NavigateToSettingsCommand}"/>
-            </StackPanel>
+        <!-- Sticky Header (Draggable) -->
+        <Border Grid.Row="0" Background="#E6F4F6F8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1" Padding="0" MouseDown="Window_MouseDown">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.05" BlurRadius="10" ShadowDepth="2" Direction="270"/>
+            </Border.Effect>
+            <!-- Frosted glass emulation with semi-transparent background -->
+            <Grid Height="48">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo / Title -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0">
+                    <Image Width="20" Height="20" Source="/app.ico" Margin="0,0,12,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <TextBlock Text="ScreenTime" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Navigation -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True">
+                    <StackPanel.Resources>
+                        <Style TargetType="RadioButton" BasedOn="{StaticResource NavButtonStyle}">
+                             <Setter Property="Margin" Value="4,0"/>
+                             <Setter Property="Padding" Value="12,6"/>
+                             <Setter Property="Background" Value="Transparent"/>
+                             <Setter Property="BorderThickness" Value="1"/>
+                             <Setter Property="BorderBrush" Value="Transparent"/>
+                             <Setter Property="FontSize" Value="13"/>
+                             <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="RadioButton">
+                                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+                                            <StackPanel Orientation="Horizontal">
+                                                <!-- Icon placeholder if needed -->
+                                                <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#102563eb"/> <!-- Accent 6% -->
+                                                <Setter TargetName="border" Property="BorderBrush" Value="#402563eb"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#052563eb"/>
+                                                <Setter TargetName="border" Property="BorderBrush" Value="#202563eb"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                             </Setter>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <RadioButton Content="{x:Static props:Resources.Dashboard}" Command="{Binding NavigateToDashboardCommand}" IsChecked="True"/>
+                    <RadioButton Content="{x:Static props:Resources.AppUsageTitle}" Command="{Binding NavigateToAppUsageDetailCommand}"/>
+                    <RadioButton Content="{x:Static props:Resources.Limits}" Command="{Binding NavigateToLimitsCommand}"/>
+                    <RadioButton Content="{x:Static props:Resources.Focus}" Command="{Binding NavigateToFocusCommand}"/>
+                    <RadioButton Content="{x:Static props:Resources.WeeklyReportTitle}" Command="{Binding NavigateToWeeklyReportCommand}"/>
+                </StackPanel>
+
+                <!-- Right Side Actions & Window Controls -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+                     <!-- Settings Button -->
+                     <Button Command="{Binding NavigateToSettingsCommand}" Background="Transparent" Foreground="{DynamicResource SecondaryTextBrush}" 
+                             WindowChrome.IsHitTestVisibleInChrome="True"
+                             Padding="8" Margin="0,0,8,0" VerticalAlignment="Center" Height="32" Width="32">
+                         <Button.Template>
+                             <ControlTemplate TargetType="Button">
+                                 <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                     <TextBlock Text="⚙" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                 </Border>
+                                 <ControlTemplate.Triggers>
+                                     <Trigger Property="IsMouseOver" Value="True">
+                                         <Setter Property="Background" Value="#10000000"/>
+                                     </Trigger>
+                                 </ControlTemplate.Triggers>
+                             </ControlTemplate>
+                         </Button.Template>
+                     </Button>
+                     
+                     <!-- Window Controls -->
+                     <Button Content="—" Style="{StaticResource WindowControlButtonStyle}" Click="MinimizeButton_Click"/>
+                     <Button x:Name="MaximizeButton" Content="☐" Style="{StaticResource WindowControlButtonStyle}" Click="MaximizeButton_Click"/>
+                     <Button Content="✕" Style="{StaticResource WindowCloseButtonStyle}" Click="CloseButton_Click"/>
+                </StackPanel>
+            </Grid>
         </Border>
 
         <!-- Main Content -->
-        <Border Grid.Column="1" Background="{DynamicResource WindowBackgroundBrush}" Padding="20">
-            <Grid>
-                <ContentControl Content="{Binding CurrentView}" />
+        <ScrollViewer Grid.Row="1" 
+                      VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Disabled"
+                      Focusable="False"
+                      CanContentScroll="False"
+                      PanningMode="VerticalOnly"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+            <Border Padding="20">
+                <Grid MaxWidth="1180" HorizontalAlignment="Stretch">
+                    <ContentControl Content="{Binding CurrentView}" />
 
-                <!-- Notification Overlay -->
-                <Border VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,20,0" 
-                        Background="#333333" CornerRadius="4" Padding="15,10"
-                        Visibility="{Binding IsNotificationVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel>
-                         <TextBlock Text="{Binding NotificationMessage}" Foreground="White" TextWrapping="Wrap" MaxWidth="300"/>
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Border>
+                    <!-- Notification Overlay -->
+                    <Border VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,20,0" 
+                            Background="#333333" CornerRadius="4" Padding="15,10"
+                            Visibility="{Binding IsNotificationVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                                <TextBlock Text="{Binding NotificationMessage}" Foreground="White" TextWrapping="Wrap" MaxWidth="300"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </Window>

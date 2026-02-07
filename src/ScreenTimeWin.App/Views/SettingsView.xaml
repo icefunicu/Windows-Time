@@ -15,44 +15,201 @@
 
         <TextBlock Text="{x:Static p:Resources.Settings}" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
 
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
+        <StackPanel Grid.Row="1" Margin="24">
                 <!-- Actions -->
-                <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="20" Margin="0,0,0,15">
+                <Border Style="{DynamicResource CardStyle}">
                     <StackPanel>
-                        <TextBlock Text="Actions" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="{x:Static p:Resources.Operations}" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,0,0,16"/>
                         
-                        <Button Content="{x:Static p:Resources.ClearData}" Command="{Binding ClearDataCommand}" Background="#D32F2F" HorizontalAlignment="Left" Width="150"/>
-                        <Button Content="{x:Static p:Resources.ExportData}" Command="{Binding ExportDataCommand}" HorizontalAlignment="Left" Width="150"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                            <Button Content="{x:Static p:Resources.ClearData}" Command="{Binding ClearDataCommand}" Background="#D32F2F" Foreground="White" Padding="16,10" Margin="0,0,16,0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="SemiBold"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            
+                            <Button Content="{x:Static p:Resources.ExportData}" Command="{Binding ExportDataCommand}" Background="{DynamicResource AccentBrush}" Foreground="White" Padding="16,10" Margin="0,0,16,0" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="SemiBold"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            
+                            <!-- Export Format -->
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{x:Static p:Resources.ExportFormat}" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,0,8,0"/>
+                                <ComboBox ItemsSource="{Binding ExportFormats}" SelectedItem="{Binding SelectedExportFormat}" Width="100" Padding="6"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Updates -->
+                        <Border Background="{DynamicResource WindowBackgroundBrush}" CornerRadius="8" Padding="16">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                    <TextBlock Text="{x:Static p:Resources.AppUpdates}" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                    <TextBlock Text="{Binding UpdateStatusText}" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryTextBrush}" FontSize="13"/>
+                                </StackPanel>
+                                
+                                <Button Content="{x:Static p:Resources.CheckUpdate}" Command="{Binding CheckForUpdatesCommand}" Padding="12,8" HorizontalAlignment="Left"
+                                        IsEnabled="{Binding IsCheckingUpdate, Converter={StaticResource InverseBooleanConverter}}">
+                                     <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+
+                                <StackPanel Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,16,0,0">
+                                    <TextBlock Text="{Binding ReleaseNotes}" TextWrapping="Wrap" MaxHeight="100" Margin="0,0,0,12" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                                    <Button Content="{x:Static p:Resources.DownloadAndInstall}" Command="{Binding DownloadAndInstallUpdateCommand}" HorizontalAlignment="Left" Background="#1967D2" Foreground="White" Padding="16,10">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="SemiBold"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                    
+                                    <ProgressBar Value="{Binding DownloadProgress}" Maximum="100" Height="4" Margin="0,12,0,0" 
+                                                 Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource AccentBrush}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
                 </Border>
 
                 <!-- Preferences -->
-                <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="20">
+                <Border Style="{DynamicResource CardStyle}">
                     <StackPanel>
-                        <TextBlock Text="Preferences" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="{x:Static p:Resources.Preferences}" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,0,0,16"/>
                         
-                        <Button Content="{x:Static p:Resources.ToggleTheme}" Command="{Binding ToggleThemeCommand}" Margin="0,15,0,0" HorizontalAlignment="Left" Width="180"/>
-
-                        <CheckBox Content="Enable Mock Data Mode (Restart Required)" IsChecked="{Binding IsMockModeEnabled}" Margin="0,15,0,0"/>
-                        <TextBlock Text="Use this mode to test UI without running the background service." Foreground="{DynamicResource SecondaryTextBrush}" FontSize="11" Margin="24,2,0,0"/>
-                        
-                        <CheckBox Content="Start with Windows" IsChecked="{Binding IsStartWithWindowsEnabled}" Margin="0,10,0,0"/>
-                        <TextBlock Text="Automatically start the UI when you log in." Foreground="{DynamicResource SecondaryTextBrush}" FontSize="11" Margin="24,2,0,0"/>
-
-                        <Button Content="{x:Static p:Resources.ChangeSecurityPin}" Command="{Binding SetPinCommand}" Margin="0,15,0,0" HorizontalAlignment="Left" Width="150"/>
-                        
-                        <StackPanel Visibility="{Binding IsPinChangeVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20,10,0,0" Background="{DynamicResource CardBackgroundBrush}">
-                             <TextBlock Text="Old PIN (Leave empty if none):"/>
-                             <TextBox Text="{Binding OldPin}" Width="150" HorizontalAlignment="Left" Margin="0,5"/>
-                             <TextBlock Text="New PIN (Leave empty to remove):"/>
-                             <TextBox Text="{Binding NewPin}" Width="150" HorizontalAlignment="Left" Margin="0,5"/>
-                             <Button Content="Save PIN" Command="{Binding ConfirmSetPinCommand}" Width="100" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                        <StackPanel Margin="0,0,0,16">
+                             <Button Content="{x:Static p:Resources.ToggleTheme}" Command="{Binding ToggleThemeCommand}" HorizontalAlignment="Left" Padding="12,8">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="Transparent" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </StackPanel>
 
+                        <StackPanel Margin="0,0,0,16">
+                            <CheckBox Content="{x:Static p:Resources.MockMode}" IsChecked="{Binding IsMockModeEnabled}" FontSize="14" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                            <TextBlock Text="{x:Static p:Resources.MockModeTip}" Foreground="{DynamicResource SecondaryTextBrush}" FontSize="12" Margin="24,4,0,0"/>
+                        </StackPanel>
+                        
+                        <StackPanel Margin="0,0,0,16">
+                            <CheckBox Content="{x:Static p:Resources.StartWithWindows}" IsChecked="{Binding IsStartWithWindowsEnabled}" FontSize="14" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                            <TextBlock Text="{x:Static p:Resources.StartWithWindowsTip}" Foreground="{DynamicResource SecondaryTextBrush}" FontSize="12" Margin="24,4,0,0"/>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <Button Content="{x:Static p:Resources.ChangeSecurityPin}" Command="{Binding SetPinCommand}" HorizontalAlignment="Left" Padding="12,8">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="Transparent" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            
+                            <Border Visibility="{Binding IsPinChangeVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,16,0,0" Background="{DynamicResource WindowBackgroundBrush}" 
+                                        CornerRadius="8" Padding="16">
+                                <StackPanel>
+                                    <TextBlock Text="{x:Static p:Resources.OldPin}" Margin="0,0,0,6" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                                    <TextBox Text="{Binding OldPin}" Width="200" HorizontalAlignment="Left" Padding="6" Margin="0,0,0,12"/>
+                                    
+                                    <TextBlock Text="{x:Static p:Resources.NewPin}" Margin="0,0,0,6" Foreground="{DynamicResource SecondaryTextBrush}"/>
+                                    <TextBox Text="{Binding NewPin}" Width="200" HorizontalAlignment="Left" Padding="6" Margin="0,0,0,16"/>
+                                    
+                                    <Button Content="{x:Static p:Resources.Save}" Command="{Binding ConfirmSetPinCommand}" Background="{DynamicResource AccentBrush}" Foreground="White" Width="100" HorizontalAlignment="Left" Padding="0,8">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="SemiBold"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
-            </StackPanel>
-        </ScrollViewer>
+
+                <!-- Category Rules -->
+                <Border Style="{DynamicResource CardStyle}">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="{x:Static p:Resources.AppCategoryRules}" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                                <TextBlock Text="{x:Static p:Resources.CategoryRulesTip}" Foreground="{DynamicResource SecondaryTextBrush}" FontSize="12" Margin="0,4,0,0"/>
+                            </StackPanel>
+                            
+                             <Button Command="{Binding ToggleCategoryEditorCommand}" Content="{Binding IsCategoryEditorVisible, Converter={StaticResource BoolToExpandCollapseConverter}}"
+                                     Foreground="{DynamicResource AccentBrush}" Background="Transparent" BorderThickness="0" Padding="8,4" Cursor="Hand"/>
+                        </Grid>
+
+                        <StackPanel Visibility="{Binding IsCategoryEditorVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,16,0,0">
+                            <!-- Add Rule -->
+                            <Border Background="{DynamicResource WindowBackgroundBrush}" CornerRadius="8" Padding="12" Margin="0,0,0,16">
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox ItemsSource="{Binding AvailableCategories}" SelectedItem="{Binding SelectedCategory}" Width="140" Padding="6" VerticalAlignment="Center"/>
+                                    <TextBox Text="{Binding NewProcessName, UpdateSourceTrigger=PropertyChanged}" Width="200" Padding="6" Margin="12,0" VerticalAlignment="Center" ToolTip="{x:Static p:Resources.ProcessNameTip}"/>
+                                    <Button Content="{x:Static p:Resources.Add}" Command="{Binding AddProcessToCategoryCommand}" Background="{DynamicResource AccentBrush}" Foreground="White" Padding="16,6">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="SemiBold"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Rule List -->
+                            <ItemsControl ItemsSource="{Binding CategoryRules}" MaxHeight="300">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{DynamicResource WindowBackgroundBrush}" CornerRadius="6" Padding="10,6" Margin="0,0,8,8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding ProcessName}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Category, StringFormat=' ({0})'}" Foreground="{DynamicResource SecondaryTextBrush}" VerticalAlignment="Center" Margin="4,0,8,0" FontSize="12"/>
+                                                <Button Content="×" Command="{Binding DataContext.RemoveProcessFromCategoryCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        CommandParameter="{Binding}" Foreground="{DynamicResource SecondaryTextBrush}" Background="Transparent" BorderThickness="0" 
+                                                        Width="20" Height="20" Padding="0" FontSize="16" Cursor="Hand" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+        </StackPanel>
     </Grid>
 </UserControl>
+

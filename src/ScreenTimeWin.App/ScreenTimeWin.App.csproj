@@ -37,6 +37,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="app-categories.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ScreenTimeWin.Core\ScreenTimeWin.Core.csproj" />
     <ProjectReference Include="..\ScreenTimeWin.Data\ScreenTimeWin.Data.csproj" />
     <ProjectReference Include="..\ScreenTimeWin.IPC\ScreenTimeWin.IPC.csproj" />

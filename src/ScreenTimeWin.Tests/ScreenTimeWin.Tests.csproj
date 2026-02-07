@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ScreenTimeWin.Core\ScreenTimeWin.Core.csproj" />
+    <ProjectReference Include="..\ScreenTimeWin.Data\ScreenTimeWin.Data.csproj" />
     <ProjectReference Include="..\ScreenTimeWin.Service\ScreenTimeWin.Service.csproj" />
   </ItemGroup>
 

@@ -17,7 +17,7 @@ public static class IpcActions
     public const string GetNotifications = "GetNotifications";
     public const string VerifyPin = "VerifyPin";
     public const string SetPin = "SetPin";
-    
+
     // 新增接口
     public const string GetWeeklySummary = "GetWeeklySummary";
     public const string GetAppDetails = "GetAppDetails";
@@ -68,6 +68,7 @@ public class StartFocusRequest
 {
     public int DurationMinutes { get; set; }
     public List<Guid> WhitelistAppIds { get; set; } = new();
+    public string FocusType { get; set; } = "Whitelist"; // Whitelist, Blacklist
     public string? Label { get; set; }
 }
 
@@ -112,27 +113,27 @@ public class WeeklySummaryResponse
     public long TotalSeconds { get; set; }
     public long TotalSecondsLastWeek { get; set; }
     public double ChangePercent { get; set; }
-    
+
     /// <summary>
     /// 每日使用秒数（7天，从周日开始）
     /// </summary>
     public List<long> DailyUsage { get; set; } = new();
-    
+
     /// <summary>
     /// 分类使用秒数
     /// </summary>
     public Dictionary<string, long> CategoryUsage { get; set; } = new();
-    
+
     /// <summary>
     /// 本周Top应用
     /// </summary>
     public List<AppUsageDto> TopApps { get; set; } = new();
-    
+
     /// <summary>
     /// 专注会话完成数
     /// </summary>
     public int FocusSessionsCompleted { get; set; }
-    
+
     /// <summary>
     /// 专注总时长（秒）
     /// </summary>
@@ -149,32 +150,32 @@ public class AppDetailsResponse
     public string DisplayName { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public string IconBase64 { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// 今日使用秒数
     /// </summary>
     public long TodaySeconds { get; set; }
-    
+
     /// <summary>
     /// 7日平均使用秒数
     /// </summary>
     public long SevenDayAverageSeconds { get; set; }
-    
+
     /// <summary>
     /// 本周总使用秒数
     /// </summary>
     public long WeekTotalSeconds { get; set; }
-    
+
     /// <summary>
     /// 限制规则
     /// </summary>
     public LimitRuleDto? LimitRule { get; set; }
-    
+
     /// <summary>
     /// 最近会话
     /// </summary>
     public List<SessionDto> RecentSessions { get; set; } = new();
-    
+
     /// <summary>
     /// 常用窗口标题
     /// </summary>

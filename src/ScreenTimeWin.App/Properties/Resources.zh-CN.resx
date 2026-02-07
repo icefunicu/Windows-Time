@@ -91,4 +91,441 @@
   <data name="ExportData" xml:space="preserve">
     <value>导出数据 (CSV)</value>
   </data>
+  <data name="Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="TotalTime" xml:space="preserve">
+    <value>总时长</value>
+  </data>
+  <data name="FocusTime" xml:space="preserve">
+    <value>专注时长</value>
+  </data>
+  <data name="Entertainment" xml:space="preserve">
+    <value>娱乐</value>
+  </data>
+  <data name="AppSwitches" xml:space="preserve">
+    <value>应用切换</value>
+  </data>
+  <data name="TimeByCategory" xml:space="preserve">
+    <value>分类时长</value>
+  </data>
+  <data name="GrowthFromYesterday" xml:space="preserve">
+    <value>较昨日 {0}</value>
+  </data>
+  <data name="MotivationStart" xml:space="preserve">
+    <value>新的一天，从专注目标开始！</value>
+  </data>
+  <data name="MotivationBetterThan" xml:space="preserve">
+    <value>已超过全国 {0}% 的用户的专注度！</value>
+  </data>
+  <data name="StatisticsTitle" xml:space="preserve">
+    <value>统计分析</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="HourlyActivity" xml:space="preserve">
+    <value>每小时活动</value>
+  </data>
+  <data name="CategoryStats" xml:space="preserve">
+    <value>分类统计</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="UsageLimitsTitle" xml:space="preserve">
+    <value>使用限制</value>
+  </data>
+  <data name="Used" xml:space="preserve">
+    <value>已用</value>
+  </data>
+  <data name="Remaining" xml:space="preserve">
+    <value>剩余</value>
+  </data>
+  <data name="LimitList" xml:space="preserve">
+    <value>限制列表</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>已启用</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="LimitTip1" xml:space="preserve">
+    <value>设置每日限额可以帮助您控制应用使用时间</value>
+  </data>
+  <data name="LimitTip2" xml:space="preserve">
+    <value>开启宵禁模式可在特定时段阻止应用启动</value>
+  </data>
+  <data name="LimitTip3" xml:space="preserve">
+    <value>分类限制可以一次性管理多个相似应用</value>
+  </data>
+  <data name="AddLimit" xml:space="preserve">
+    <value>添加限制</value>
+  </data>
+  <data name="QuickActions" xml:space="preserve">
+    <value>快捷操作</value>
+  </data>
+  <data name="FocusModeTitle" xml:space="preserve">
+    <value>专注模式</value>
+  </data>
+  <data name="KeepFocusing" xml:space="preserve">
+    <value>保持专注</value>
+  </data>
+  <data name="StartFocus" xml:space="preserve">
+    <value>开始专注</value>
+  </data>
+  <data name="StopFocus" xml:space="preserve">
+    <value>结束专注</value>
+  </data>
+  <data name="SessionsCompleted" xml:space="preserve">
+    <value>今日完成会话</value>
+  </data>
+  <data name="DoNotDisturb" xml:space="preserve">
+    <value>勿扰模式</value>
+  </data>
+  <data name="BlacklistMode" xml:space="preserve">
+    <value>黑名单模式</value>
+  </data>
+  <data name="AllowedApps" xml:space="preserve">
+    <value>允许的应用</value>
+  </data>
+  <data name="BlockedApps" xml:space="preserve">
+    <value>已屏蔽</value>
+  </data>
+  <data name="Operations" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="ExportFormat" xml:space="preserve">
+    <value>导出格式:</value>
+  </data>
+  <data name="AppUpdates" xml:space="preserve">
+    <value>应用更新</value>
+  </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>偏好设置</value>
+  </data>
+  <data name="MockMode" xml:space="preserve">
+    <value>启用模拟数据模式（需要重启）</value>
+  </data>
+  <data name="MockModeTip" xml:space="preserve">
+    <value>使用此模式无需运行后台服务即可测试 UI。</value>
+  </data>
+  <data name="StartWithWindows" xml:space="preserve">
+    <value>开机启动</value>
+  </data>
+  <data name="StartWithWindowsTip" xml:space="preserve">
+    <value>登录时自动启动此应用。</value>
+  </data>
+  <data name="OldPin" xml:space="preserve">
+    <value>旧 PIN（无则留空）:</value>
+  </data>
+  <data name="NewPin" xml:space="preserve">
+    <value>新 PIN（留空则移除）:</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="AppCategoryRules" xml:space="preserve">
+    <value>应用分类规则</value>
+  </data>
+  <data name="CategoryRulesTip" xml:space="preserve">
+    <value>自定义应用分类，影响仪表盘统计和专注模式预设</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="ProcessName" xml:space="preserve">
+    <value>进程名称</value>
+  </data>
+  <data name="ProcessNameTip" xml:space="preserve">
+    <value>输入进程名称（不含 .exe）</value>
+  </data>
+  <data name="AppUsageTitle" xml:space="preserve">
+    <value>应用使用情况</value>
+  </data>
+  <data name="SevenDayAvg" xml:space="preserve">
+    <value>7日平均</value>
+  </data>
+  <data name="SetDailyLimit" xml:space="preserve">
+    <value>设置每日限额</value>
+  </data>
+  <data name="BlockInFocus" xml:space="preserve">
+    <value>在专注模式中屏蔽</value>
+  </data>
+  <data name="AlwaysAllow" xml:space="preserve">
+    <value>总是允许</value>
+  </data>
+  <data name="TopTitles" xml:space="preserve">
+    <value>常用标题:</value>
+  </data>
+  <data name="RecentSessions" xml:space="preserve">
+    <value>最近会话</value>
+  </data>
+  <data name="DownloadAndInstall" xml:space="preserve">
+    <value>下载并安装</value>
+  </data>
+  <data name="WeeklyReportTitle" xml:space="preserve">
+    <value>周报</value>
+  </data>
+  <data name="TotalScreenTime" xml:space="preserve">
+    <value>总屏幕时间</value>
+  </data>
+  <data name="ComparedToLastWeek" xml:space="preserve">
+    <value>较上周</value>
+  </data>
+  <data name="DailyAverage" xml:space="preserve">
+    <value>日均使用</value>
+  </data>
+  <data name="PeakDay" xml:space="preserve">
+    <value>峰值日</value>
+  </data>
+  <data name="MostProductiveDay" xml:space="preserve">
+    <value>最高效日</value>
+  </data>
+  <data name="DailyUsage" xml:space="preserve">
+    <value>每日使用</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>正在检查...</value>
+  </data>
+  <data name="Running" xml:space="preserve">
+    <value>运行中</value>
+  </data>
+  <data name="Stopped" xml:space="preserve">
+    <value>停止 / 无法连接</value>
+  </data>
+  <data name="StatusError" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="UptimeFormat" xml:space="preserve">
+    <value>运行时间: {0}小时 {1}分</value>
+  </data>
+  <data name="UpdateNotChecked" xml:space="preserve">
+    <value>未检查</value>
+  </data>
+  <data name="UpdateChecking" xml:space="preserve">
+    <value>正在检查更新...</value>
+  </data>
+  <data name="UpdateFound" xml:space="preserve">
+    <value>发现新版本: {0}</value>
+  </data>
+  <data name="UpdateLatest" xml:space="preserve">
+    <value>已是最新版本 v{0}</value>
+  </data>
+  <data name="UpdateError" xml:space="preserve">
+    <value>检查失败: {0}</value>
+  </data>
+  <data name="UpdateDownloadComplete" xml:space="preserve">
+    <value>下载完成！是否立即安装？
+安装后应用将自动关闭。</value>
+  </data>
+  <data name="UpdateInstallTitle" xml:space="preserve">
+    <value>安装更新</value>
+  </data>
+  <data name="UpdateDownloadError" xml:space="preserve">
+    <value>下载失败: {0}</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="SuccessTitle" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="PinUpdateSuccess" xml:space="preserve">
+    <value>PIN 已成功更新。</value>
+  </data>
+  <data name="PinUpdateError" xml:space="preserve">
+    <value>更新 PIN 失败。请检查旧 PIN。</value>
+  </data>
+  <data name="ClearDataConfirm" xml:space="preserve">
+    <value>确定要清除所有以前的使用数据吗？此操作无法撤销。</value>
+  </data>
+  <data name="ClearDataTitle" xml:space="preserve">
+    <value>确认清除</value>
+  </data>
+  <data name="ClearDataSuccess" xml:space="preserve">
+    <value>数据已成功清除。</value>
+  </data>
+  <data name="ClearDataError" xml:space="preserve">
+    <value>清除数据失败: {0}</value>
+  </data>
+  <data name="ExportSuccess" xml:space="preserve">
+    <value>数据已导出到:
+{0}</value>
+  </data>
+  <data name="ExportSuccessTitle" xml:space="preserve">
+    <value>导出成功</value>
+  </data>
+  <data name="ExportFail" xml:space="preserve">
+    <value>导出失败或返回路径为空。</value>
+  </data>
+  <data name="ExportError" xml:space="preserve">
+    <value>导出错误: {0}</value>
+  </data>
+  <data name="SaveCategoryError" xml:space="preserve">
+    <value>保存分类规则失败: {0}</value>
+  </data>
+  <data name="CategoryDevelopment" xml:space="preserve">
+    <value>开发</value>
+  </data>
+  <data name="CategoryWork" xml:space="preserve">
+    <value>办公</value>
+  </data>
+  <data name="CategoryBrowser" xml:space="preserve">
+    <value>浏览器</value>
+  </data>
+  <data name="CategorySocial" xml:space="preserve">
+    <value>社交</value>
+  </data>
+  <data name="CategoryEntertainment" xml:space="preserve">
+    <value>娱乐</value>
+  </data>
+  <data name="CategoryOther" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>屏幕时间</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>加载中...</value>
+  </data>
+  <data name="MotivationDefault" xml:space="preserve">
+    <value>继续加油！</value>
+  </data>
+  <data name="TimeFormatHM" xml:space="preserve">
+    <value>{0}小时 {1}分</value>
+  </data>
+  <data name="TimeFormatM" xml:space="preserve">
+    <value>{0}分</value>
+  </data>
+  <data name="NoLimit" xml:space="preserve">
+    <value>无限制</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>本周</value>
+  </data>
+  <data name="LastWeek" xml:space="preserve">
+    <value>上周</value>
+  </data>
+  <data name="FocusDefaultLabel" xml:space="preserve">
+    <value>专注编程</value>
+  </data>
+  <data name="UrgentLimitExample" xml:space="preserve">
+    <value>Chrome 限额: 剩余 12 分钟</value>
+  </data>
+  <data name="FocusSettingsTitle" xml:space="preserve">
+    <value>专注设置</value>
+  </data>
+  <data name="FocusSettingsMsg" xml:space="preserve">
+    <value>请在“专注”页面配置白名单。</value>
+  </data>
+  <data name="AlwaysAllowTitle" xml:space="preserve">
+    <value>始终允许</value>
+  </data>
+  <data name="AlwaysAllowMsg" xml:space="preserve">
+    <value>若要始终允许此应用，请确保未设置限额，并不在专注模式黑名单中。</value>
+  </data>
+  <data name="AddLimitTitle" xml:space="preserve">
+    <value>添加限额</value>
+  </data>
+  <data name="AddLimitMsg" xml:space="preserve">
+    <value>若要添加新限额，请前往仪表盘点击应用查看详情，并在那里设置限额。</value>
+  </data>
+  <data name="CategoryLearning" xml:space="preserve">
+      <value>学习</value>
+  </data>
+  <data name="CategoryGames" xml:space="preserve">
+      <value>游戏</value>
+  </data>
+  <data name="CategoryMedia" xml:space="preserve">
+      <value>媒体</value>
+  </data>
+  <data name="CategoryCommunication" xml:space="preserve">
+      <value>通讯</value>
+  </data>
+  <data name="CategoryProductivity" xml:space="preserve">
+      <value>生产力</value>
+  </data>
+  <data name="StartupErrorTitle" xml:space="preserve">
+    <value>ScreenTimeWin - 启动错误</value>
+  </data>
+  <data name="AppFailedToStart" xml:space="preserve">
+    <value>应用程序启动失败</value>
+  </data>
+  <data name="CriticalErrorInit" xml:space="preserve">
+    <value>初始化期间遇到严重错误。</value>
+  </data>
+  <data name="OpenLogs" xml:space="preserve">
+    <value>打开日志文件夹</value>
+  </data>
+  <data name="CopyError" xml:space="preserve">
+    <value>复制错误信息</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="TimesUpTitle" xml:space="preserve">
+    <value>时间到！</value>
+  </data>
+  <data name="TimesUpHeader" xml:space="preserve">
+    <value>时间到！</value>
+  </data>
+  <data name="DailyLimitReached" xml:space="preserve">
+    <value>您已达到每日使用限额：</value>
+  </data>
+  <data name="CloseApp" xml:space="preserve">
+    <value>关闭应用</value>
+  </data>
+  <data name="MoreTime" xml:space="preserve">
+    <value>延时 (5分钟)</value>
+  </data>
+  <data name="RequestUnlock" xml:space="preserve">
+    <value>请求解锁</value>
+  </data>
+  <data name="ComingSoon" xml:space="preserve">
+    <value>即将推出 / 建设中</value>
+  </data>
+  <data name="WeeklyReport" xml:space="preserve">
+    <value>周报</value>
+  </data>
+  <data name="WeeklyInsightsReady" xml:space="preserve">
+    <value>您的每周使用情况报告已生成。</value>
+  </data>
+  <data name="ViewReport" xml:space="preserve">
+    <value>查看报告 →</value>
+  </data>
+  <data name="NoDataTitle" xml:space="preserve">
+    <value>暂无数据</value>
+  </data>
+  <data name="NoDataHint" xml:space="preserve">
+    <value>开始使用应用后，数据将自动显示在这里。</value>
+  </data>
+  <data name="NearLimit" xml:space="preserve">
+    <value>接近限额</value>
+  </data>
+  <data name="SelectApp" xml:space="preserve">
+    <value>选择应用</value>
+  </data>
+  <data name="DailyLimitLabel" xml:space="preserve">
+    <value>每日限制</value>
+  </data>
+  <data name="CurfewMode" xml:space="preserve">
+    <value>宵禁模式</value>
+  </data>
+  <data name="CurfewModeHint" xml:space="preserve">
+    <value>在特定时间段内阻止应用</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>从</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>至</value>
+  </data>
+  <data name="PleaseSelectApp" xml:space="preserve">
+    <value>请选择一个应用</value>
+  </data>
 </root>

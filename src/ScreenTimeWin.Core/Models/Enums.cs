@@ -13,3 +13,9 @@ public enum FocusMode
     Pomodoro,
     DeepWork
 }
+
+public enum FocusType
+{
+    Whitelist,
+    Blacklist
+}

@@ -1,0 +1,7 @@
+{
+  "Browser": [ "chrome", "msedge", "firefox", "opera", "brave", "vivaldi" ],
+  "Work": [ "excel", "winword", "powerpnt", "outlook", "teams", "slack", "onenote", "feishu", "dingtalk", "wps" ],
+  "Development": [ "devenv", "code", "rider", "idea64", "webstorm64", "pycharm64", "notepad++", "sublime_text", "powershell", "pwsh", "cmd", "windowsterminal" ],
+  "Social": [ "wechat", "qq", "telegram", "discord", "whatsapp", "skype" ],
+  "Entertainment": [ "steam", "spotify", "vlc", "potplayer", "mpc-hc64", "netflix", "primevideo" ]
+}

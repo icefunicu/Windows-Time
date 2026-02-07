@@ -15,11 +15,11 @@ public interface IAppService
     Task StartFocusAsync(StartFocusRequest request);
     Task StopFocusAsync();
     Task ClearDataAsync();
-    Task<string> ExportDataAsync();
+    Task<string> ExportDataAsync(string format = "csv");
     Task<List<NotificationDto>> GetNotificationsAsync();
     Task<bool> VerifyPinAsync(string pin);
     Task<bool> SetPinAsync(string oldPin, string newPin);
-    
+
     // 新增接口
     Task<WeeklySummaryResponse> GetWeeklySummaryAsync(DateTime weekStartDate);
     Task<AppDetailsResponse> GetAppDetailsAsync(Guid appId);
@@ -85,9 +85,9 @@ public class AppService : IAppService
         await _client.SendAsync<object>(IpcActions.ClearData);
     }
 
-    public async Task<string> ExportDataAsync()
+    public async Task<string> ExportDataAsync(string format = "csv")
     {
-        return await _client.SendAsync<string>(IpcActions.ExportData) ?? string.Empty;
+        return await _client.SendAsync<string>(IpcActions.ExportData, new { Format = format }) ?? string.Empty;
     }
 
     public async Task<List<NotificationDto>> GetNotificationsAsync()
@@ -106,7 +106,7 @@ public class AppService : IAppService
     }
 
     // 新增接口实现
-    
+
     public async Task<WeeklySummaryResponse> GetWeeklySummaryAsync(DateTime weekStartDate)
     {
         var result = await _client.SendAsync<WeeklySummaryResponse>(IpcActions.GetWeeklySummary, new WeeklySummaryRequest { WeekStartDate = weekStartDate });
@@ -208,10 +208,11 @@ public class MockAppService : IAppService
         await Task.Delay(500);
     }
 
-    public async Task<string> ExportDataAsync()
+    public async Task<string> ExportDataAsync(string format = "csv")
     {
         await Task.Delay(1000);
-        return "C:\\Fake\\Path\\export.csv";
+        var ext = format.ToLower() == "json" ? "json" : "csv";
+        return $"C:\\Users\\Documents\\screentime_export_{DateTime.Now:yyyyMMdd}.{ext}";
     }
 
     public async Task<List<NotificationDto>> GetNotificationsAsync()

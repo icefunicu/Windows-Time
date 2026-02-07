@@ -12,15 +12,38 @@ namespace ScreenTimeWin.App.ViewModels;
 /// </summary>
 public partial class AppUsageDetailViewModel : ObservableObject
 {
-    private readonly IAppService _appService;
+    private static string FormatTimeLocal(long seconds)
+    {
+        var span = TimeSpan.FromSeconds(seconds);
+        if (span.TotalHours >= 1)
+            return string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)span.TotalHours, span.Minutes);
+        return string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatM, span.Minutes);
+    }
 
-    public AppUsageDetailViewModel(IAppService appService)
+    private readonly IAppService _appService;
+    private readonly LocalAppMonitorService _monitorService;
+
+    public AppUsageDetailViewModel(IAppService appService, LocalAppMonitorService monitorService)
     {
         _appService = appService;
-        InitializeMockData();
+        _monitorService = monitorService;
+        // 从真实数据源异步加载数据
+        _ = LoadAppsAsync();
     }
 
     #region 应用列表
+
+    /// <summary>
+    /// 是否正在加载
+    /// </summary>
+    [ObservableProperty]
+    private bool _isLoading = true;
+
+    /// <summary>
+    /// 是否无数据（用于显示空状态引导）
+    /// </summary>
+    [ObservableProperty]
+    private bool _hasNoData = false;
 
     /// <summary>
     /// 应用使用列表
@@ -47,6 +70,9 @@ public partial class AppUsageDetailViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadAppsAsync()
     {
+        IsLoading = true;
+        HasNoData = false;
+
         try
         {
             var summary = await _appService.GetTodaySummaryAsync();
@@ -68,11 +94,19 @@ public partial class AppUsageDetailViewModel : ObservableObject
                     Category = app.Category
                 });
             }
+
+            HasNoData = AppList.Count == 0;
         }
-        catch
+        catch (Exception ex)
         {
-            // 使用Mock数据
-            InitializeMockData();
+            // 数据加载失败，显示空状态
+            System.Diagnostics.Debug.WriteLine($"LoadAppsAsync 错误: {ex.Message}");
+            AppList.Clear();
+            HasNoData = true;
+        }
+        finally
+        {
+            IsLoading = false;
         }
     }
 
@@ -107,10 +141,21 @@ public partial class AppUsageDetailViewModel : ObservableObject
                 DailyLimitMinutes = detail.LimitRule?.DailyLimitMinutes
             };
         }
-        catch
+        catch (Exception ex)
         {
-            // 使用Mock数据
-            SelectedAppDetail = CreateMockAppDetail(item);
+            // 数据加载失败，使用基本信息
+            System.Diagnostics.Debug.WriteLine($"SelectAppAsync 错误: {ex.Message}");
+            SelectedAppDetail = new AppDetailInfo
+            {
+                AppId = item.AppId,
+                DisplayName = item.DisplayName,
+                IconBase64 = item.IconBase64,
+                TodaySeconds = item.TodaySeconds,
+                SevenDayAverageSeconds = item.SevenDayAverageSeconds,
+                RecentSessions = new ObservableCollection<SessionDisplayItem>(),
+                TopTitles = new ObservableCollection<string>(),
+                HasLimit = false
+            };
         }
 
         IsDetailPopupVisible = true;
@@ -140,20 +185,31 @@ public partial class AppUsageDetailViewModel : ObservableObject
         await _appService.UpsertLimitRuleAsync(rule);
         SelectedAppDetail.HasLimit = true;
         SelectedAppDetail.DailyLimitMinutes = 120;
+
+        // Sync monitor
+        var rules = await _appService.GetLimitRulesAsync();
+        _monitorService.UpdateRules(rules);
     }
 
     [RelayCommand]
     private void BlockInFocus()
     {
-        MessageBox.Show("Please configure Focus Mode whitelist in the Focus tab.", "Focus Settings", MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show(ScreenTimeWin.App.Properties.Resources.FocusSettingsMsg, ScreenTimeWin.App.Properties.Resources.FocusSettingsTitle, MessageBoxButton.OK, MessageBoxImage.Information);
         CloseDetailPopup();
     }
 
     [RelayCommand]
     private void AlwaysAllow()
     {
-        MessageBox.Show("To always allow this app, please ensure no limits are set and it is added to the Focus whitelist if needed.", "Always Allow", MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show(ScreenTimeWin.App.Properties.Resources.AlwaysAllowMsg, ScreenTimeWin.App.Properties.Resources.AlwaysAllowTitle, MessageBoxButton.OK, MessageBoxImage.Information);
         CloseDetailPopup();
+    }
+
+    [RelayCommand]
+    public void NavigateToLimits()
+    {
+        var mainVM = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<MainViewModel>(App.Current.Host.Services);
+        mainVM.NavigateToLimits();
     }
 
     #endregion
@@ -235,13 +291,7 @@ public partial class AppUsageDetailViewModel : ObservableObject
         };
     }
 
-    private string FormatDuration(long seconds)
-    {
-        var span = TimeSpan.FromSeconds(seconds);
-        if (span.TotalHours >= 1)
-            return $"{(int)span.TotalHours}h {span.Minutes}m";
-        return $"{span.Minutes}m";
-    }
+    private string FormatDuration(long seconds) => FormatTimeLocal(seconds);
 
     #endregion
 }
@@ -286,8 +336,8 @@ public class AppUsageListItem
     {
         var span = TimeSpan.FromSeconds(seconds);
         if (span.TotalHours >= 1)
-            return $"{(int)span.TotalHours}h {span.Minutes}m";
-        return $"{span.Minutes}m";
+            return string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)span.TotalHours, span.Minutes);
+        return string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatM, span.Minutes);
     }
 }
 
@@ -317,8 +367,8 @@ public partial class AppDetailInfo : ObservableObject
     {
         var span = TimeSpan.FromSeconds(seconds);
         if (span.TotalHours >= 1)
-            return $"{(int)span.TotalHours}h {span.Minutes}m";
-        return $"{span.Minutes}m";
+            return string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatHM, (int)span.TotalHours, span.Minutes);
+        return string.Format(ScreenTimeWin.App.Properties.Resources.TimeFormatM, span.Minutes);
     }
 }
 

@@ -37,7 +37,7 @@ public partial class AnalyticsViewModel : ObservableObject
     public async Task LoadDataAsync()
     {
         var data = await _appService.GetUsageByDateAsync(SelectedDate);
-        
+
         App.Current.Dispatcher.Invoke(() =>
         {
             TopApps.Clear();
@@ -48,7 +48,7 @@ public partial class AnalyticsViewModel : ObservableObject
                 new ColumnSeries<double>
                 {
                     Values = data.HourlyUsage.Select(x => (double)x).ToArray(),
-                    Name = "Seconds"
+                    Name = Properties.Resources.Seconds
                 }
             };
 
@@ -58,11 +58,11 @@ public partial class AnalyticsViewModel : ObservableObject
                 .Select(g => new PieSeries<double>
                 {
                     Values = new double[] { g.Sum(a => a.TotalSeconds) },
-                    Name = g.Key,
+                    Name = Helpers.CategoryHelper.GetLocalizedCategory(g.Key),
                     ToolTipLabelFormatter = point => $"{point.Context.Series.Name}: {TimeSpan.FromSeconds(point.Coordinate.PrimaryValue).TotalMinutes:F0}m"
                 })
                 .ToArray();
-            
+
             CategorySeries = categories;
         });
     }
